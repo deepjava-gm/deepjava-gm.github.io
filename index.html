@@ -13,6 +13,13 @@ background:linear-gradient( cyan 10%,blue 60%);
 div {
 background:linear-gradient( cyan 10%,blue 60%);
     height: 100%;	
+	display: flex;/*设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效*/
+				display: -webkit-flex; /* Safari */
+				flex-direction: column;/*容器内项目的排列方向(默认横向排列 row)*/
+				flex-wrap: nowrap;/*容器内项目换行方式*/
+				justify-content: center;/*项目在主轴上的对齐方式*/
+				align-items: center;/*项目在交叉轴上如何对齐*/
+				align-content: center;/*定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用*/
       }	    
       
      
