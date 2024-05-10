@@ -1,14 +1,16 @@
 // 监听双击事件
 var flag = true;
 document.addEventListener('dblclick', function(event) {
-    alert(flag)
+    if(flag){
+        alert('点击确定即可开启纯净阅读模式，再次双击可取消！')
+    }
     if(flag){
         // b.css 隐藏  /blog/是部署的根路径
-        loadCSS('/blog/b.css');
+        loadCSS('/blog/hide-for-read.css');
         flag = false;
     }else {
         //  a.css 显示   /blog/是部署的根路径
-        loadCSS('a.css');
+        loadCSS('/blog/recover-for-read.css');
         flag = true;
     }
 });
