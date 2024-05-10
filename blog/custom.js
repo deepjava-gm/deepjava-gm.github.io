@@ -1,15 +1,18 @@
-// 监听双击事件
 var flag = true;
+var firstFlag = true;
+
 document.addEventListener('dblclick', function(event) {
-    if(flag){
-        alert('点击确定即可开启纯净阅读模式，再次双击可取消！')
+    // 首次双击显示弹框
+    if(firstFlag){
+        showPopup();
     }
+
     if(flag){
-        // b.css 隐藏  /blog/是部署的根路径
+        //  隐藏
         loadCSS('/blog/hide-for-read.css');
         flag = false;
     }else {
-        //  a.css 显示   /blog/是部署的根路径
+        //  显示
         loadCSS('/blog/recover-for-read.css');
         flag = true;
     }
@@ -27,3 +30,26 @@ function loadCSS(cssFile) {
     document.head.appendChild(linkElement);
 }
 
+// 显示弹框
+function showPopup() {
+    var popup = document.createElement('div');
+    popup.classList.add('popup'); // 添加一个类名
+
+    popup.innerHTML = `
+    <div style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); z-index: 9999;">
+      <h3>已开启纯净阅读模式,再次双击可取消！</h3>
+      <button style=" display: block; margin: 0 auto; color: white; width: 80px;height: 40px ; background: #84e2b7; border:none ;border-radius: 5px" onclick="closePopup()">确定</button>
+    </div>
+  `;
+    document.body.appendChild(popup);
+
+    var popupContent = popup.querySelector('div');
+    popupContent.style.display = 'block';
+}
+
+// 关闭弹框
+function closePopup() {
+    var popup = document.querySelector('.popup');
+    popup.parentNode.removeChild(popup);
+    firstFlag=false;
+}
