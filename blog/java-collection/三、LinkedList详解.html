@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>LinkedList详解 | GM的学习博客</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="stylesheet" href="/blog/custom.css">
+    <script src="/blog/custom.js"></script>
+    <meta name="description" content="博观约取、厚积薄发。">
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.0612dbff.css" as="style"><link rel="preload" href="/blog/assets/js/app.68faf095.js" as="script"><link rel="preload" href="/blog/assets/js/7.d6983c35.js" as="script"><link rel="preload" href="/blog/assets/js/2.babf9ded.js" as="script"><link rel="preload" href="/blog/assets/js/1.54955ac4.js" as="script"><link rel="preload" href="/blog/assets/js/40.0a51fdc7.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.2488ff2a.js"><link rel="prefetch" href="/blog/assets/js/11.add86867.js"><link rel="prefetch" href="/blog/assets/js/14.8ba32fa5.js"><link rel="prefetch" href="/blog/assets/js/15.926b1cd7.js"><link rel="prefetch" href="/blog/assets/js/16.5627e9c8.js"><link rel="prefetch" href="/blog/assets/js/17.c745b0b1.js"><link rel="prefetch" href="/blog/assets/js/18.94e52d84.js"><link rel="prefetch" href="/blog/assets/js/19.9a29cc64.js"><link rel="prefetch" href="/blog/assets/js/20.ecf2e6fd.js"><link rel="prefetch" href="/blog/assets/js/21.4268d6f7.js"><link rel="prefetch" href="/blog/assets/js/22.f6b8bd65.js"><link rel="prefetch" href="/blog/assets/js/23.1ed14112.js"><link rel="prefetch" href="/blog/assets/js/24.67f51b5a.js"><link rel="prefetch" href="/blog/assets/js/25.c6f5c5c0.js"><link rel="prefetch" href="/blog/assets/js/26.692e69bd.js"><link rel="prefetch" href="/blog/assets/js/27.a396b304.js"><link rel="prefetch" href="/blog/assets/js/28.c073b678.js"><link rel="prefetch" href="/blog/assets/js/29.f9fd30a7.js"><link rel="prefetch" href="/blog/assets/js/3.09c21588.js"><link rel="prefetch" href="/blog/assets/js/30.2962fbba.js"><link rel="prefetch" href="/blog/assets/js/31.39d4cb55.js"><link rel="prefetch" href="/blog/assets/js/32.746948c7.js"><link rel="prefetch" href="/blog/assets/js/33.72f5128a.js"><link rel="prefetch" href="/blog/assets/js/34.d9e34b8a.js"><link rel="prefetch" href="/blog/assets/js/35.598b443d.js"><link rel="prefetch" href="/blog/assets/js/36.71d98d02.js"><link rel="prefetch" href="/blog/assets/js/37.4f98f5cd.js"><link rel="prefetch" href="/blog/assets/js/38.647039ec.js"><link rel="prefetch" href="/blog/assets/js/39.873a487f.js"><link rel="prefetch" href="/blog/assets/js/4.b7bbf705.js"><link rel="prefetch" href="/blog/assets/js/41.d64e9813.js"><link rel="prefetch" href="/blog/assets/js/42.ef307aca.js"><link rel="prefetch" href="/blog/assets/js/43.30ec5630.js"><link rel="prefetch" href="/blog/assets/js/44.12effa8b.js"><link rel="prefetch" href="/blog/assets/js/45.21c92783.js"><link rel="prefetch" href="/blog/assets/js/46.19354e74.js"><link rel="prefetch" href="/blog/assets/js/47.13d6fbd8.js"><link rel="prefetch" href="/blog/assets/js/48.8a0554a5.js"><link rel="prefetch" href="/blog/assets/js/49.c2666201.js"><link rel="prefetch" href="/blog/assets/js/5.4370390d.js"><link rel="prefetch" href="/blog/assets/js/50.e6c30b45.js"><link rel="prefetch" href="/blog/assets/js/51.14233e1c.js"><link rel="prefetch" href="/blog/assets/js/52.e3713652.js"><link rel="prefetch" href="/blog/assets/js/53.4ca11689.js"><link rel="prefetch" href="/blog/assets/js/54.674b7f38.js"><link rel="prefetch" href="/blog/assets/js/55.edacb024.js"><link rel="prefetch" href="/blog/assets/js/56.12c9d8f6.js"><link rel="prefetch" href="/blog/assets/js/57.8a364671.js"><link rel="prefetch" href="/blog/assets/js/6.19b90948.js"><link rel="prefetch" href="/blog/assets/js/8.92831dcf.js"><link rel="prefetch" href="/blog/assets/js/9.82e18295.js"><link rel="prefetch" href="/blog/assets/js/vendors~docsearch.6e140397.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.0612dbff.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-7dd95ae2><div data-v-7dd95ae2><div class="password-shadow password-wrapper-out" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>GM的学习博客</h3> <p class="description" data-v-59e6cb88>博观约取、厚积薄发。</p> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2024
+      </a></span></div></div> <div class="hide" data-v-7dd95ae2><header class="navbar" data-v-7dd95ae2><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><img src="/blog/head.jpg" alt="GM的学习博客" class="logo"> <span class="site-name">GM的学习博客</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="https://deepjava-gm.github.io" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  首页
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      GM的学习博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/deepjava-gm" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/qq_37883866" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  CSDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-7dd95ae2></div> <aside class="sidebar" data-v-7dd95ae2><div class="personal-info-wrapper" data-v-1fad0c41 data-v-7dd95ae2><!----> <!----> <div class="num" data-v-1fad0c41><div data-v-1fad0c41><h3 data-v-1fad0c41>18</h3> <h6 data-v-1fad0c41>文章</h6></div> <div data-v-1fad0c41><h3 data-v-1fad0c41>0</h3> <h6 data-v-1fad0c41>标签</h6></div></div> <ul class="social-links" data-v-1fad0c41></ul> <hr data-v-1fad0c41></div> <nav class="nav-links"><div class="nav-item"><a href="https://deepjava-gm.github.io" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  首页
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      GM的学习博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/deepjava-gm" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/qq_37883866" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  CSDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><a href="/blog/" class="sidebar-heading clickable router-link-active"><span>欢迎学习</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/" aria-current="page" class="sidebar-link">引言</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/javabase/一、Java基础知识" class="sidebar-heading clickable"><span>Java基础知识点</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/java-collection/一、Java集合概述" class="sidebar-heading clickable open"><span>Java集合知识点</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/java-collection/一、Java集合概述.html" class="sidebar-link">一、Java集合概述</a></li><li><a href="/blog/java-collection/二、ArrayList详解.html" class="sidebar-link">二、ArrayList详解</a></li><li><a href="/blog/java-collection/三、LinkedList详解.html" class="active sidebar-link">三、LinkedList详解</a></li><li><a href="/blog/java-collection/四、CopyOnWriteArrayList详解.html" class="sidebar-link">四、CopyOnWriteArrayList详解</a></li></ul></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88></h3> <!----> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2024
+      </a></span></div></div> <div data-v-7dd95ae2><div data-v-7dd95ae2><main class="page"><section style="display:;"><div class="page-title"><h1 class="title">LinkedList详解</h1> <div data-v-8a445198><!----> <!----> <!----> <!----></div></div> <div class="theme-reco-content content__default"><h1 id="linkedlist详解"><a href="#linkedlist详解" class="header-anchor">#</a> LinkedList详解</h1> <p>LinkedList用的不多，但是其内部的双向链表实现还是值得去探讨学习的。</p> <h2 id="_1、linkedlist的继承体系"><a href="#_1、linkedlist的继承体系" class="header-anchor">#</a> 1、LinkedList的继承体系</h2> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span>
+    <span class="token keyword">extends</span> <span class="token class-name">AbstractSequentialList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span>
+    <span class="token keyword">implements</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">,</span> <span class="token class-name">Deque</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">,</span> <span class="token class-name">Cloneable</span><span class="token punctuation">,</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span>Serializable</span>
+</code></pre></div><img src="/blog/images/18-1.png" alt="mixureSecure"> <p>可以看到和ArrayList还是有不少区别的</p> <p>需要注意的两个点：</p> <ul><li><p>①、LinkedList没有实现RandomAccess接口，意味着LinkedList不支持快速随机访问。
+这是由LinkedList的数据结构决定的。由于LinkedList 底层数据结构是链表，内存地址是不连续的，
+只能通过指针来定位，不像ArrayList底层是数组结构内存地址是连续的，
+可以通过数组的下标快速定位元素。所以LinkedList没有实现RandomAccess接口。</p></li> <li><p>②、LinkedList实现了Deque接口，说明LinkedList支持双向链表的操作，比如addFirst，addLast等方法。</p></li></ul> <h2 id="_2、linkedlist的构造函数"><a href="#_2、linkedlist的构造函数" class="header-anchor">#</a> 2、LinkedList的构造函数</h2> <p>①、无参构造</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">LinkedList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p>②、有参构造</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">LinkedList</span><span class="token punctuation">(</span><span class="token class-name">Collection</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// 调用无参构造函数，初始化LinkedList实例</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 将传入的集合c中的所有元素添加到当前LinkedList实例中</span>
+        <span class="token function">addAll</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="_3、linkedlist的add-e-e-方法"><a href="#_3、linkedlist的add-e-e-方法" class="header-anchor">#</a> 3、LinkedList的<code>add(E e)</code>方法</h2> <p><code>add(E e)</code>方法</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// 调用linkLast方法将元素e添加到链表的末尾</span>
+        <span class="token function">linkLast</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 返回true，表示元素添加成功</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p><code>linkLast(E e)</code>方法</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 用于跟踪修改次数的计数器，主要用于迭代器的快速失败（fail-fast）机制</span>
+<span class="token keyword">protected</span> <span class="token keyword">transient</span> <span class="token keyword">int</span> modCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 链表中元素的数量</span>
+<span class="token keyword">transient</span> <span class="token keyword">int</span> size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 链表的第一个节点引用</span>
+<span class="token keyword">transient</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> first<span class="token punctuation">;</span>
+
+<span class="token comment">// 链表的最后一个节点引用</span>
+<span class="token keyword">transient</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> last<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">linkLast</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 将当前链表的最后一个节点引用保存到局部变量l中</span>
+    <span class="token comment">// 这样可以方便后续对链表末尾进行操作</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> l <span class="token operator">=</span> last<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 创建一个新的节点，节点的前驱是l（即当前的最后一个节点），</span>
+    <span class="token comment">// 节点包含的元素是e，后继节点为null（因为新节点将成为最后一个节点）</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> newNode <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>l<span class="token punctuation">,</span> e<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 更新链表的最后一个节点引用为新创建的节点</span>
+    last <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 检查链表是否为空（即当前没有任何节点）</span>
+    <span class="token comment">// 如果链表为空（即last为null），那么新节点也是第一个节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>l <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token comment">// 将链表的第一个节点引用也更新为新创建的节点</span>
+        first <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token comment">// 如果链表不为空（即已有节点），</span>
+        <span class="token comment">// 那么将当前最后一个节点的next指向新创建的节点</span>
+        l<span class="token punctuation">.</span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 链表的元素数量增加1</span>
+    size<span class="token operator">++</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 修改计数器增加1</span>
+    modCount<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>上面的modCount在ArrayList详解的文章中已经介绍过来，这里就不再赘述。<br>
+我们需要关注LinkedList的核心 Node，可以叫节点。</p> <h2 id="_4、linkedlist的node节点"><a href="#_4、linkedlist的node节点" class="header-anchor">#</a> 4、LinkedList的Node节点</h2> <p>可以把每个Node节点理解为一个带有前后钩子的盒子，这个盒子里装着一个元素（item），通过前后两个钩子（prev和next）连接到前后的盒子（节点），形成一个双向链表的数据结构。</p> <p>Node类是LinkedList的一个静态内部类，用于表示链表中的每个节点。<br>
+每个节点包含一个元素（item），指向前一个节点的引用（prev）和指向后一个节点的引用（next）。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+    <span class="token comment">// 节点中存储的元素</span>
+    <span class="token class-name">E</span> item<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 指向下一个节点的引用</span>
+    <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> next<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 指向前一个节点的引用</span>
+    <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> prev<span class="token punctuation">;</span>
+
+    <span class="token comment">// Node类的构造函数，用于创建一个新节点</span>
+    <span class="token comment">// 参数prev是指向前一个节点的引用，element是当前节点中存储的元素，next是指向下一个节点的引用</span>
+    <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> prev<span class="token punctuation">,</span> <span class="token class-name">E</span> element<span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 将传入的元素赋值给item，表示节点中存储的元素</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>item <span class="token operator">=</span> element<span class="token punctuation">;</span>
+        
+        <span class="token comment">// 将传入的下一个节点引用赋值给next</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>next <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        
+        <span class="token comment">// 将传入的前一个节点引用赋值给prev</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>prev <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h2 id="_5、双向链表的概念和node节点的详细解释"><a href="#_5、双向链表的概念和node节点的详细解释" class="header-anchor">#</a> 5、双向链表的概念和Node节点的详细解释</h2> <p>双向链表（Doubly Linked List）是一种链表数据结构。<br>
+其中每个节点包含三个主要部分：<br>
+存储的元素（数据）;<br>
+指向前一个节点的引用（前驱）;<br>
+指向后一个节点的引用（后继）;</p> <p>这种结构允许从任意节点向前或向后遍历链表，提供了比单向链表更灵活的操作。</p> <p>在双向链表中，Node节点是链表的基本组成部分。每个节点都包含存储的元素以及指向前一个节点和后一个节点的引用。</p> <p>Node节点的结构如下：</p> <ul><li>元素（item）：节点中存储的数据，这可以是任意类型的对象。</li> <li>前驱节点引用（prev）：指向链表中前一个节点的引用。如果当前节点是链表的第一个节点，则这个引用为null。</li> <li>后继节点引用（next）：指向链表中下一个节点的引用。如果当前节点是链表的最后一个节点，则这个引用为null。</li></ul> <p>单向链表和双向链表的图示：</p> <img src="/blog/images/18-2.png" alt="mixureSecure"> <h2 id="_6、linkedlist的add-e-e-方法梳理"><a href="#_6、linkedlist的add-e-e-方法梳理" class="header-anchor">#</a> 6、LinkedList的<code>add(E e)</code>方法梳理</h2> <p>通过空参构造新建LinkedList实例<br>
+下面分析添加 &quot;秀逗&quot; 、&quot;四眼&quot; 两个元素的过程</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;秀逗&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;四眼&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>执行无参构造创建 LinkedList实例</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 用于跟踪修改次数的计数器，主要用于迭代器的快速失败（fail-fast）机制</span>
+<span class="token keyword">protected</span> <span class="token keyword">transient</span> <span class="token keyword">int</span> modCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 链表中元素的数量</span>
+<span class="token keyword">transient</span> <span class="token keyword">int</span> size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 链表的第一个节点引用</span>
+<span class="token keyword">transient</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> first<span class="token punctuation">;</span>
+
+<span class="token comment">// 链表的最后一个节点引用</span>
+<span class="token keyword">transient</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> last<span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token class-name">LinkedList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p>执行add方法 添加&quot;秀逗&quot;</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 调用linkLast方法将元素e添加到链表的末尾</span>
+    <span class="token function">linkLast</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 始终返回true，表示元素添加成功</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><ul><li>调用linkLast(E e)方法：这是将&quot;秀逗&quot;添加到链表末尾的具体实现方法。</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">void</span> <span class="token function">linkLast</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 将当前链表的最后一个节点引用保存到局部变量l中</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> l <span class="token operator">=</span> last<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 创建一个新的节点，节点的前驱是l（即当前的最后一个节点），</span>
+    <span class="token comment">// 节点包含的元素是e，后继节点为null（因为新节点将成为最后一个节点）</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> newNode <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>l<span class="token punctuation">,</span> e<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 更新链表的最后一个节点引用为新创建的节点</span>
+    last <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 检查链表是否为空（即当前没有任何节点）</span>
+    <span class="token comment">// 如果链表为空（即last为null），那么新节点也是第一个节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>l <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token comment">// 将链表的第一个节点引用也更新为新创建的节点</span>
+        first <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token comment">// 如果链表不为空（即已有节点），</span>
+        <span class="token comment">// 那么将当前最后一个节点的next指向新创建的节点</span>
+        l<span class="token punctuation">.</span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 链表的元素数量增加1</span>
+    size<span class="token operator">++</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 修改计数器增加1</span>
+    <span class="token comment">// 这个计数器在结构发生变化（例如添加或删除元素）时增加，</span>
+    <span class="token comment">// 用于实现迭代器的快速失败机制，检测并发修改</span>
+    modCount<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>下面把添加过程串起来</strong></p> <ul><li><p>1.保存当前最后一个节点的引用到局部变量 l：<br> <code>final Node&lt;E&gt; l = last;</code> // 由于last在空参构造的初始化为null ，所以 l为null</p></li> <li><p>2.创建一个新的节点newNode：<br> <code>final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);</code>
+newNode的前驱节点为l（当前的最后一个节点） 值为null。<br>
+newNode包含的元素为 &quot;秀逗&quot; 。<br>
+newNode的后继节点为null（因为它将成为新的最后一个节点）。</p></li> <li><p>3.更新链表的最后一个节点引用为newNode：<br> <code>last = newNode;</code> // 将last更新为newNode。</p></li> <li><p>4.检查链表是否为空：<br> <code>if (l == null) first = newNode;</code><br>
+l 现在为空 ，说明这是链表中的第一个节点。<br>
+将链表的第一个节点引用first也更新为newNode。</p></li> <li><p>5.增加链表的元素数量：<br>
+将链表的大小size增加1。</p></li> <li><p>6.增加修改计数器modCount：<br>
+用于实现迭代器的快速失败机制，检测并发修改。</p></li> <li><ol start="7"><li>再添加 &quot;四眼&quot; 这个元素<br>
+保存当前最后一个节点的引用到局部变量 l：<br> <code>final Node&lt;E&gt; l = last;</code> // 由于last在添加&quot;秀逗&quot;的时候已经赋值了<br>
+所以这里 l 是有值的</li></ol></li> <li><p>8.再创建一个新的节点newNode：<br> <code>final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);</code>
+newNode的前驱节点为l（当前的最后一个节点） 值为  &quot;秀逗&quot; 。<br>
+newNode包含的元素为 &quot;四眼&quot; 。<br>
+newNode的后继节点为null（因为它将成为新的最后一个节点）。</p></li> <li><p>9.再更新链表的最后一个节点引用为newNode：<br> <code>last = newNode;</code> // 将last更新为newNode。    此时&quot;四眼&quot;就成了最后一个元素</p></li> <li><p>10.再检查链表是否为空：<br> <code>if (l == null) first = newNode; else l.next = newNode;</code><br>
+l 现在为 &quot;秀逗&quot; ，不为空，讲 l 的下一个节点引用 next 指向 newNode 也就是 &quot;四眼&quot;。</p></li></ul> <p>这就完成了 &quot;秀逗&quot; ， &quot;四眼&quot;  两个元素的 添加。</p> <p>最终图示：</p> <img src="/blog/images/18-3.png" alt="mixureSecure"> <h2 id="_7、linkedlist的getxxx方法"><a href="#_7、linkedlist的getxxx方法" class="header-anchor">#</a> 7、LinkedList的<code>getXXX</code>方法</h2> <p><strong>LinkedList获取元素的方法有下面几个:</strong><br>
+getFirst()：获取链表的第一个元素。<br>
+getLast()：获取链表的最后一个元素。<br>
+get(int index)：获取链表指定位置的元素。</p> <p>我在ArrayList详解里面并没有去讲解get方法，因为ArrayList中的get并没有什么好讲的。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// ArrayList中的get方法</span>
+<span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// 先检查数组下标有没有越界</span>
+        <span class="token function">rangeCheck</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 返回对应位置的元素</span>
+        <span class="token keyword">return</span> <span class="token function">elementData</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">rangeCheck</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">&gt;=</span> size<span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IndexOutOfBoundsException</span><span class="token punctuation">(</span><span class="token function">outOfBoundsMsg</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p>但是LinkedList的<code>getXXX</code>方法是值得深入学一学的：<br>
+先看下最简单的两个 getFirst和getLast</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">getFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取链表的第一个节点引用，并将其保存在局部变量f中</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> f <span class="token operator">=</span> first<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 如果第一个节点为null，表示链表为空</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>f <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token comment">// 抛出NoSuchElementException异常，表示没有元素可以返回</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 返回第一个节点中的元素</span>
+    <span class="token keyword">return</span> f<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">getLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取链表的最后一个节点引用，并将其保存在局部变量l中</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> l <span class="token operator">=</span> last<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 如果最后一个节点为null，表示链表为空</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>l <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token comment">// 抛出NoSuchElementException异常，表示没有元素可以返回</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 返回最后一个节点中的元素</span>
+    <span class="token keyword">return</span> l<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>最值得去探究的是 get(int index)：获取链表指定位置的元素。</p> <p>我们知道LinkedList是链表结构，无法像ArrayList那样快速随机访问。
+那么LinkedList想根据下标去找到某个元素就只能靠遍历了。<br>
+看下具体是怎么实现的：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 检查元素索引是否合法，如果不合法会抛出 IndexOutOfBoundsException</span>
+    <span class="token function">checkElementIndex</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 获取指定索引的节点并返回其包含的元素</span>
+    <span class="token keyword">return</span> <span class="token function">node</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> <span class="token function">node</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 判断索引在链表中的位置，以决定从头部还是尾部开始遍历</span>
+    <span class="token comment">// size &gt;&gt; 1  计算链表长度/2 向下取整  </span>
+    <span class="token comment">// 如果size是偶数 右移一位的结果就是size的一半 如果size是奇数 右移一位的结果就是size的一半再减0.5  </span>
+    
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">&lt;</span> <span class="token punctuation">(</span>size <span class="token operator">&gt;&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果索引在前半部分，从头部开始遍历</span>
+        <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x <span class="token operator">=</span> first<span class="token punctuation">;</span>
+        <span class="token comment">// 通过不断访问 next 来找到指定索引的节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> index<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            x <span class="token operator">=</span> x<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果索引在后半部分，从尾部开始遍历</span>
+        <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x <span class="token operator">=</span> last<span class="token punctuation">;</span>
+        <span class="token comment">// 通过不断访问 prev 来找到指定索引的节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> size <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&gt;</span> index<span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span>
+            x <span class="token operator">=</span> x<span class="token punctuation">.</span>prev<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>这里我做了个动画来演示查找的过程。</p> <ul><li>①、从链表头部开始遍历</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token string">&quot;1&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;2&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;秀逗&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;4&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;5&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;6&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;7&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;四眼&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;9&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;10&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> s <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 秀逗</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>由于下标2 小于整个链表长度size 10右移一位   10 &gt;&gt; 1 = 5,   即2&lt;5，  就从链表的头部开始遍历</p> <img src="/blog/images/18-4.gif" alt="mixureSecure"> <ul><li>②、从链表尾部开始遍历</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token string">&quot;1&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;2&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;秀逗&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;4&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;5&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;6&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;7&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;四眼&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;9&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;10&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> s <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 四眼</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>由于下标7 大于整个链表长度size 10右移一位   10 &gt;&gt; 1 = 5,   即7&gt;5，  就从链表的尾部开始遍历</p> <img src="/blog/images/18-5.gif" alt="mixureSecure"> <h2 id="_8、linkedlist的removexxx方法"><a href="#_8、linkedlist的removexxx方法" class="header-anchor">#</a> 8、LinkedList的<code>removeXXX</code>方法</h2> <p><strong>LinkedList删除元素的方法有下面几个:</strong></p> <ul><li>①、removeFirst()：删除并返回链表的第一个元素。</li> <li>②、removeLast()：删除并返回链表的最后一个元素。</li> <li>③、remove(E e)：删除链表中首次出现的指定元素，如果不存在该元素则返回 false。</li> <li>④、remove(int index)：删除指定索引处的元素，并返回该元素的值。</li></ul> <h3 id="_1、removefirst-方法-移除linkedlist的第一个元素"><a href="#_1、removefirst-方法-移除linkedlist的第一个元素" class="header-anchor">#</a> ①、removeFirst()方法 (移除LinkedList的第一个元素)：</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">removeFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取链表的第一个节点，赋值给变量 f</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> f <span class="token operator">=</span> first<span class="token punctuation">;</span>
+    <span class="token comment">// 如果链表为空，即第一个节点为 null，抛出 NoSuchElementException 异常</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>f <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 调用 unlinkFirst 方法，从链表中移除第一个节点</span>
+    <span class="token keyword">return</span> <span class="token function">unlinkFirst</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token class-name">E</span> <span class="token function">unlinkFirst</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> f<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 确保 f 是第一个节点且不为 null 的断言，注释掉的是因为在实际代码中没有执行断言检查的需要</span>
+    <span class="token comment">// assert f == first &amp;&amp; f != null;</span>
+
+    <span class="token comment">// 保存第一个节点的值</span>
+    <span class="token keyword">final</span> <span class="token class-name">E</span> element <span class="token operator">=</span> f<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+    <span class="token comment">// 保存第一个节点的下一个节点</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> next <span class="token operator">=</span> f<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token comment">// 将第一个节点的值设为 null，帮助垃圾回收</span>
+    f<span class="token punctuation">.</span>item <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 将第一个节点的 next 指针设为 null，帮助垃圾回收</span>
+    f<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 更新链表的头节点为原头节点的下一个节点</span>
+    first <span class="token operator">=</span> next<span class="token punctuation">;</span>
+    <span class="token comment">// 如果更新后的头节点为 null，说明链表现在为空，更新尾节点为 null</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>next <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        last <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token comment">// 如果更新后的头节点不为 null，将它的 prev 指针设为 null</span>
+        next<span class="token punctuation">.</span>prev <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 链表长度减一</span>
+    size<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token comment">// 修改计数器增加一，用于记录链表结构的修改次数</span>
+    modCount<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token comment">// 返回被移除的节点的值</span>
+    <span class="token keyword">return</span> element<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>总结一下：</p> <ul><li><p>1.removeFirst() 方法：
+首先，获取链表的第一个节点，并检查其是否为 null。
+如果链表为空，则抛出 NoSuchElementException 异常。
+否则，调用 unlinkFirst(f) 方法从链表中移除第一个节点，并返回该节点的值。</p></li> <li><p>2.unlinkFirst<code>(Node&lt;E&gt; f)</code> 方法：
+保存要移除的节点的值和它的下一个节点。
+将要移除节点的 item 和 next 设为 null，以帮助垃圾回收。
+更新链表的头节点为原头节点的下一个节点。如果新头节点为 null，说明链表现在为空，因此将尾节点也设为 null；否则，将新头节点的 prev 指针设为 null。
+减少链表的大小，并增加修改计数器。
+返回被移除节点的值。</p></li></ul> <h3 id="_2、removelast-方法-移除linkedlist的最后一个元素"><a href="#_2、removelast-方法-移除linkedlist的最后一个元素" class="header-anchor">#</a> ②、removeLast()方法 (移除LinkedList的最后一个元素)：</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取链表的最后一个节点，赋值给变量 l</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> l <span class="token operator">=</span> last<span class="token punctuation">;</span>
+    <span class="token comment">// 如果链表为空，即最后一个节点为 null，抛出 NoSuchElementException 异常</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>l <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 调用 unlinkLast 方法，从链表中移除最后一个节点</span>
+    <span class="token keyword">return</span> <span class="token function">unlinkLast</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token class-name">E</span> <span class="token function">unlinkLast</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> l<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 确保 l 是最后一个节点且不为 null 的断言，注释掉的是因为在实际代码中没有执行断言检查的需要</span>
+    <span class="token comment">// assert l == last &amp;&amp; l != null;</span>
+
+    <span class="token comment">// 保存最后一个节点的值</span>
+    <span class="token keyword">final</span> <span class="token class-name">E</span> element <span class="token operator">=</span> l<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+    <span class="token comment">// 保存最后一个节点的前一个节点</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> prev <span class="token operator">=</span> l<span class="token punctuation">.</span>prev<span class="token punctuation">;</span>
+    <span class="token comment">// 将最后一个节点的值设为 null，帮助垃圾回收</span>
+    l<span class="token punctuation">.</span>item <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 将最后一个节点的 prev 指针设为 null，帮助垃圾回收</span>
+    l<span class="token punctuation">.</span>prev <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 更新链表的尾节点为原尾节点的前一个节点</span>
+    last <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+    <span class="token comment">// 如果更新后的尾节点为 null，说明链表现在为空，更新头节点为 null</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        first <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token comment">// 如果更新后的尾节点不为 null，将它的 next 指针设为 null</span>
+        prev<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 链表长度减一</span>
+    size<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token comment">// 修改计数器增加一，用于记录链表结构的修改次数</span>
+    modCount<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token comment">// 返回被移除的节点的值</span>
+    <span class="token keyword">return</span> element<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>总结一下：</p> <ul><li><p>1.removeLast() 方法：<br>
+首先，获取链表的最后一个节点，并检查其是否为 null。<br>
+如果链表为空，则抛出 NoSuchElementException 异常。<br>
+否则，调用 unlinkLast(l) 方法从链表中移除最后一个节点，并返回该节点的值。</p></li> <li><p>2.unlinkLast<code>(Node&lt;E&gt; l)</code> 方法：<br>
+保存要移除的节点的值和它的前一个节点。<br>
+将要移除节点的 item 和 prev 设为 null，以帮助垃圾回收。<br>
+更新链表的尾节点为原尾节点的前一个节点。如果新尾节点为 null，说明链表现在为空，因此将头节点也设为 null；否则，将新尾节点的   next 指针设为 null。<br>
+减少链表的大小，并增加修改计数器。<br>
+返回被移除节点的值。</p></li></ul> <h3 id="_3、remove-e-e-方法-这个方法值得深入"><a href="#_3、remove-e-e-方法-这个方法值得深入" class="header-anchor">#</a> ③、remove(E e)方法 (这个方法值得深入)</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token class-name">Object</span> o<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 如果要移除的元素为 null</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>o <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 从链表的第一个节点开始遍历</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x <span class="token operator">=</span> first<span class="token punctuation">;</span> x <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> x <span class="token operator">=</span> x<span class="token punctuation">.</span>next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 如果当前节点的值为 null</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>x<span class="token punctuation">.</span>item <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 调用 unlink 方法移除当前节点</span>
+                <span class="token function">unlink</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// 返回 true 表示成功移除元素</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果要移除的元素不为 null</span>
+        <span class="token comment">// 从链表的第一个节点开始遍历</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x <span class="token operator">=</span> first<span class="token punctuation">;</span> x <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> x <span class="token operator">=</span> x<span class="token punctuation">.</span>next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 如果当前节点的值与要移除的元素相等</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>o<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 调用 unlink 方法移除当前节点</span>
+                <span class="token function">unlink</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// 返回 true 表示成功移除元素</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 如果遍历整个链表没有找到要移除的元素，返回 false</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">E</span> <span class="token function">unlink</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 确保 x 不为 null 的断言，注释掉的是因为在实际代码中没有执行断言检查的需要</span>
+    <span class="token comment">// assert x != null;</span>
+
+    <span class="token comment">// 保存要移除节点的值</span>
+    <span class="token keyword">final</span> <span class="token class-name">E</span> element <span class="token operator">=</span> x<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+    <span class="token comment">// 保存要移除节点的下一个节点</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> next <span class="token operator">=</span> x<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token comment">// 保存要移除节点的前一个节点</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> prev <span class="token operator">=</span> x<span class="token punctuation">.</span>prev<span class="token punctuation">;</span>
+
+    <span class="token comment">// 如果要移除的节点是第一个节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 更新链表的头节点为要移除节点的下一个节点</span>
+        first <span class="token operator">=</span> next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 否则，将前一个节点的 next 指向要移除节点的下一个节点</span>
+        prev<span class="token punctuation">.</span>next <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token comment">// 将要移除节点的 prev 指针设为 null，帮助垃圾回收</span>
+        x<span class="token punctuation">.</span>prev <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 如果要移除的节点是最后一个节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>next <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 更新链表的尾节点为要移除节点的前一个节点</span>
+        last <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 否则，将下一个节点的 prev 指向要移除节点的前一个节点</span>
+        next<span class="token punctuation">.</span>prev <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+        <span class="token comment">// 将要移除节点的 next 指针设为 null，帮助垃圾回收</span>
+        x<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 将要移除节点的值设为 null，帮助垃圾回收</span>
+    x<span class="token punctuation">.</span>item <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 链表长度减一</span>
+    size<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token comment">// 修改计数器增加一，用于记录链表结构的修改次数</span>
+    modCount<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token comment">// 返回被移除节点的值</span>
+    <span class="token keyword">return</span> element<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>总结一下：<br> <code>remove(Object o)</code> 方法：<br>
+该方法用于从链表中移除第一个与给定元素 o 相等的节点。<br>
+如果 o 为 null，则遍历链表，找到第一个节点值为 null 的节点，并调用 unlink(x) 方法移除该节点，返回 true。<br>
+如果 o 不为 null，则遍历链表，找到第一个节点值与 o 相等的节点，并调用 unlink(x) 方法移除该节点，返回 true。<br>
+如果遍历完整个链表没有找到与 o 相等的节点，返回 false。</p> <p><code>unlink(Node&lt;E&gt; x)</code>方法：<br>
+该方法用于从链表中移除指定的节点 x。<br>
+保存要移除节点的值、下一个节点和前一个节点。<br>
+如果要移除的节点是第一个节点，则更新链表的头节点为下一个节点；否则，将前一个节点的 next 指针指向下一个节点，并将要移除节点  的 prev 指针设为 null。<br>
+如果要移除的节点是最后一个节点，则更新链表的尾节点为前一个节点；否则，将下一个节点的 prev 指针指向前一个节点，并将要移除节点的 next 指针设为 null。<br>
+将要移除节点的值设为 null，以帮助垃圾回收。<br>
+链表的长度减一，并增加修改计数器。<br>
+返回被移除节点的值。</p> <p>这里还是做个动画帮助理解 双向链表移除某个数据的过程：</p> <img src="/blog/images/18-6.gif" alt="mixureSecure"> <p>可以看到最后</p> <img src="/blog/images/18-7.png" alt="mixureSecure"> <p>秀逗的pre  和 next 都被置为了null。<br>
+这样做可以确保该节点与链表完全断开连接，从而有助于垃圾回收机制回收该节点。</p> <h3 id="_4、remove-int-index-方法"><a href="#_4、remove-int-index-方法" class="header-anchor">#</a> ④、<code>remove(int index)</code>方法</h3> <p>这个方法 实际上在上面的分析中都提到了：<br>
+比如checkElementIndex、unlink、node方法在上面都有。<br>
+所以这个只给出方法注释 就不总结画图了。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 检查给定的索引是否在链表的有效范围内</span>
+    <span class="token function">checkElementIndex</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 找到给定索引处的节点并移除它，返回被移除节点的值</span>
+    <span class="token keyword">return</span> <span class="token function">unlink</span><span class="token punctuation">(</span><span class="token function">node</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">checkElementIndex</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 如果给定的索引不是有效的元素索引，抛出 IndexOutOfBoundsException 异常</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isElementIndex</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IndexOutOfBoundsException</span><span class="token punctuation">(</span><span class="token function">outOfBoundsMsg</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> <span class="token function">node</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 确保给定的索引是有效的元素索引的断言，注释掉的是因为在实际代码中没有执行断言检查的需要</span>
+    <span class="token comment">// assert isElementIndex(index);</span>
+
+    <span class="token comment">// 如果给定的索引在前半部分</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">&lt;</span> <span class="token punctuation">(</span>size <span class="token operator">&gt;&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x <span class="token operator">=</span> first<span class="token punctuation">;</span>
+        <span class="token comment">// 从头节点开始遍历，找到索引处的节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> index<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            x <span class="token operator">=</span> x<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果给定的索引在后半部分</span>
+        <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x <span class="token operator">=</span> last<span class="token punctuation">;</span>
+        <span class="token comment">// 从尾节点开始反向遍历，找到索引处的节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> size <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&gt;</span> index<span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span>
+            x <span class="token operator">=</span> x<span class="token punctuation">.</span>prev<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">E</span> <span class="token function">unlink</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 确保 x 不为 null 的断言，注释掉的是因为在实际代码中没有执行断言检查的需要</span>
+    <span class="token comment">// assert x != null;</span>
+
+    <span class="token comment">// 保存要移除节点的值</span>
+    <span class="token keyword">final</span> <span class="token class-name">E</span> element <span class="token operator">=</span> x<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+    <span class="token comment">// 保存要移除节点的下一个节点</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> next <span class="token operator">=</span> x<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token comment">// 保存要移除节点的前一个节点</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> prev <span class="token operator">=</span> x<span class="token punctuation">.</span>prev<span class="token punctuation">;</span>
+
+    <span class="token comment">// 如果要移除的节点是第一个节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>prev <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 更新链表的头节点为要移除节点的下一个节点</span>
+        first <span class="token operator">=</span> next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 否则，将前一个节点的 next 指向要移除节点的下一个节点</span>
+        prev<span class="token punctuation">.</span>next <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token comment">// 将要移除节点的 prev 指针设为 null，帮助垃圾回收</span>
+        x<span class="token punctuation">.</span>prev <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 如果要移除的节点是最后一个节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>next <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 更新链表的尾节点为要移除节点的前一个节点</span>
+        last <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 否则，将下一个节点的 prev 指向要移除节点的前一个节点</span>
+        next<span class="token punctuation">.</span>prev <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+        <span class="token comment">// 将要移除节点的 next 指针设为 null，帮助垃圾回收</span>
+        x<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 将要移除节点的值设为 null，帮助垃圾回收</span>
+    x<span class="token punctuation">.</span>item <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 链表长度减一</span>
+    size<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token comment">// 修改计数器增加一，用于记录链表结构的修改次数</span>
+    modCount<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token comment">// 返回被移除节点的值</span>
+    <span class="token keyword">return</span> element<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>最后还有个clear方法 也很有意思</strong><br>
+也来看下   这可比 ArrayList的 clear方法麻烦多了</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 清除所有节点之间的链接是“非必要”的，但这样做有以下好处：</span>
+    <span class="token comment">// - 如果被丢弃的节点跨越多个垃圾分代，有助于分代的垃圾回收 (generational GC)</span>
+    <span class="token comment">// - 即使存在可达的迭代器，也能确保释放内存</span>
+
+    <span class="token comment">// 从链表的第一个节点开始</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> x <span class="token operator">=</span> first<span class="token punctuation">;</span> x <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 保存当前节点的下一个节点</span>
+        <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> next <span class="token operator">=</span> x<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token comment">// 将当前节点的值设为 null，帮助垃圾回收</span>
+        x<span class="token punctuation">.</span>item <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token comment">// 将当前节点的 next 指针设为 null，帮助垃圾回收</span>
+        x<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token comment">// 将当前节点的 prev 指针设为 null，帮助垃圾回收</span>
+        x<span class="token punctuation">.</span>prev <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token comment">// 移动到下一个节点</span>
+        x <span class="token operator">=</span> next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 将链表的头节点和尾节点设为 null，表示链表为空</span>
+    first <span class="token operator">=</span> last <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// 将链表的大小设为 0</span>
+    size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token comment">// 修改计数器增加一，用于记录链表结构的修改次数</span>
+    modCount<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h2 id="_9、linkedlist的反向迭代器-descendingiterator"><a href="#_9、linkedlist的反向迭代器-descendingiterator" class="header-anchor">#</a> 9、LinkedList的反向迭代器 <code>DescendingIterator</code></h2> <p>DescendingIterator 可以从最后一个元素往前迭代。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token string">&quot;1&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;2&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;秀逗&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;4&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;5&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;6&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;7&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;四眼&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;9&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;10&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">Iterator</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> iterator <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>iterator<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot; &quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;\n=============================&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">Iterator</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> descIterator <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">descendingIterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>descIterator<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>descIterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot; &quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p>执行结果：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token number">1</span> <span class="token number">2</span> 秀逗 <span class="token number">4</span> <span class="token number">5</span> <span class="token number">6</span> <span class="token number">7</span> 四眼 <span class="token number">9</span> <span class="token number">10</span> 
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+<span class="token number">10</span> <span class="token number">9</span> 四眼 <span class="token number">7</span> <span class="token number">6</span> <span class="token number">5</span> <span class="token number">4</span> 秀逗 <span class="token number">2</span> <span class="token number">1</span> 
+</code></pre></div><p>看下DescendingIterator 的实现：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// LinkedList的内部类，实现从尾部到头部的迭代器</span>
+<span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">DescendingIterator</span> <span class="token keyword">implements</span> <span class="token class-name">Iterator</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+    <span class="token comment">// 使用ListItr类的实例实现迭代器功能</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">ListItr</span> itr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListItr</span><span class="token punctuation">(</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 检查是否有下一个元素（实际上是前一个元素，因为我们是反向迭代）</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 调用ListItr的hasPrevious方法，检查是否有前一个元素</span>
+        <span class="token keyword">return</span> itr<span class="token punctuation">.</span><span class="token function">hasPrevious</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 获取下一个元素（实际上是前一个元素，因为我们是反向迭代）</span>
+    <span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 调用ListItr的previous方法，返回前一个元素</span>
+        <span class="token keyword">return</span> itr<span class="token punctuation">.</span><span class="token function">previous</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 移除当前元素</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 调用ListItr的remove方法，移除当前元素</span>
+        itr<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>所以DescendingIterator  本质上 就是对ListItr 的包装 主要是实现细节都在 ListItr中<br> <strong>再看下 ListItr 的细节：</strong><br>
+注意这个ListItr  是LinkedList的内部类   ， 而不是 AbstractList抽象类里面的 内部类 ListItr (集合API内部类的命名就不能好好区分一下吗...)</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// LinkedList的内部类，实现双向列表迭代器</span>
+<span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">ListItr</span> <span class="token keyword">implements</span> <span class="token class-name">ListIterator</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+    <span class="token comment">// 最近返回的节点</span>
+    <span class="token keyword">private</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> lastReturned<span class="token punctuation">;</span>
+    <span class="token comment">// 下一个节点</span>
+    <span class="token keyword">private</span> <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> next<span class="token punctuation">;</span>
+    <span class="token comment">// 下一个节点的索引</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> nextIndex<span class="token punctuation">;</span>
+    <span class="token comment">// 预期的修改计数，用于检测并发修改</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> expectedModCount <span class="token operator">=</span> modCount<span class="token punctuation">;</span>
+
+    <span class="token comment">// 构造函数，根据给定的索引初始化迭代器</span>
+    <span class="token class-name">ListItr</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果索引等于列表大小，next为null</span>
+        next <span class="token operator">=</span> <span class="token punctuation">(</span>index <span class="token operator">==</span> size<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token keyword">null</span> <span class="token operator">:</span> <span class="token function">node</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 初始化下一个节点的索引</span>
+        nextIndex <span class="token operator">=</span> index<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 检查是否有下一个元素</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> nextIndex <span class="token operator">&lt;</span> size<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 获取下一个元素</span>
+    <span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 检查是否有并发修改</span>
+        <span class="token function">checkForComodification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 设置最后返回的节点为当前的下一个节点</span>
+        lastReturned <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token comment">// 移动到下一个节点</span>
+        next <span class="token operator">=</span> next<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token comment">// 增加下一个节点的索引</span>
+        nextIndex<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token comment">// 返回最后返回节点的值</span>
+        <span class="token keyword">return</span> lastReturned<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 检查是否有前一个元素</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasPrevious</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> nextIndex <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 获取前一个元素</span>
+    <span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">previous</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 检查是否有并发修改</span>
+        <span class="token function">checkForComodification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">hasPrevious</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 如果next为null，说明当前在列表的末尾</span>
+        <span class="token comment">// 否则移动到前一个节点</span>
+        lastReturned <span class="token operator">=</span> next <span class="token operator">=</span> <span class="token punctuation">(</span>next <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">?</span> last <span class="token operator">:</span> next<span class="token punctuation">.</span>prev<span class="token punctuation">;</span>
+        <span class="token comment">// 减少下一个节点的索引</span>
+        nextIndex<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token comment">// 返回最后返回节点的值</span>
+        <span class="token keyword">return</span> lastReturned<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 获取下一个元素的索引</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">nextIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> nextIndex<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 获取前一个元素的索引</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">previousIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> nextIndex <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 移除当前元素</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 检查是否有并发修改</span>
+        <span class="token function">checkForComodification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>lastReturned <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 获取最后返回节点的下一个节点</span>
+        <span class="token class-name">Node</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">&gt;</span></span> lastNext <span class="token operator">=</span> lastReturned<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token comment">// 从链表中取消链接最后返回的节点</span>
+        <span class="token function">unlink</span><span class="token punctuation">(</span>lastReturned<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>next <span class="token operator">==</span> lastReturned<span class="token punctuation">)</span>
+            next <span class="token operator">=</span> lastNext<span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+            nextIndex<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token comment">// 重置最后返回的节点</span>
+        lastReturned <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token comment">// 更新预期的修改计数</span>
+        expectedModCount <span class="token operator">=</span> modCount<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 更新当前元素</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>lastReturned <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">checkForComodification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        lastReturned<span class="token punctuation">.</span>item <span class="token operator">=</span> e<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 添加元素</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">checkForComodification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        lastReturned <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>next <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token function">linkLast</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+            <span class="token function">linkBefore</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        nextIndex<span class="token operator">++</span><span class="token punctuation">;</span>
+        expectedModCount <span class="token operator">=</span> modCount<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 检查是否有并发修改的方法</span>
+    <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">checkForComodification</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>modCount <span class="token operator">!=</span> expectedModCount<span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ConcurrentModificationException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div></div></section> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev"><a href="/blog/java-collection/二、ArrayList详解.html" class="prev">
+          二、ArrayList详解
+        </a></span> <span class="next"><a href="/blog/java-collection/四、CopyOnWriteArrayList详解.html">
+          四、CopyOnWriteArrayList详解
+        </a></span></p></div> <div class="comments-wrapper"><!----></div></main></div> <!----></div> <ul class="sub-sidebar sub-sidebar-wrapper" style="width:12rem;" data-v-b57cc07c data-v-7dd95ae2><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_1、linkedlist的继承体系" class="sidebar-link reco-side-_1、linkedlist的继承体系" data-v-b57cc07c>1、LinkedList的继承体系</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_2、linkedlist的构造函数" class="sidebar-link reco-side-_2、linkedlist的构造函数" data-v-b57cc07c>2、LinkedList的构造函数</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_3、linkedlist的add-e-e-方法" class="sidebar-link reco-side-_3、linkedlist的add-e-e-方法" data-v-b57cc07c>3、LinkedList的add(E e)方法</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_4、linkedlist的node节点" class="sidebar-link reco-side-_4、linkedlist的node节点" data-v-b57cc07c>4、LinkedList的Node节点</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_5、双向链表的概念和node节点的详细解释" class="sidebar-link reco-side-_5、双向链表的概念和node节点的详细解释" data-v-b57cc07c>5、双向链表的概念和Node节点的详细解释</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_6、linkedlist的add-e-e-方法梳理" class="sidebar-link reco-side-_6、linkedlist的add-e-e-方法梳理" data-v-b57cc07c>6、LinkedList的add(E e)方法梳理</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_7、linkedlist的getxxx方法" class="sidebar-link reco-side-_7、linkedlist的getxxx方法" data-v-b57cc07c>7、LinkedList的getXXX方法</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_8、linkedlist的removexxx方法" class="sidebar-link reco-side-_8、linkedlist的removexxx方法" data-v-b57cc07c>8、LinkedList的removeXXX方法</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_1、removefirst-方法-移除linkedlist的第一个元素" class="sidebar-link reco-side-_1、removefirst-方法-移除linkedlist的第一个元素" data-v-b57cc07c>①、removeFirst()方法 (移除LinkedList的第一个元素)：</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_2、removelast-方法-移除linkedlist的最后一个元素" class="sidebar-link reco-side-_2、removelast-方法-移除linkedlist的最后一个元素" data-v-b57cc07c>②、removeLast()方法 (移除LinkedList的最后一个元素)：</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_3、remove-e-e-方法-这个方法值得深入" class="sidebar-link reco-side-_3、remove-e-e-方法-这个方法值得深入" data-v-b57cc07c>③、remove(E e)方法 (这个方法值得深入)</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_4、remove-int-index-方法" class="sidebar-link reco-side-_4、remove-int-index-方法" data-v-b57cc07c>④、remove(int index)方法</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-collection/%E4%B8%89%E3%80%81LinkedList%E8%AF%A6%E8%A7%A3.html#_9、linkedlist的反向迭代器-descendingiterator" class="sidebar-link reco-side-_9、linkedlist的反向迭代器-descendingiterator" data-v-b57cc07c>9、LinkedList的反向迭代器 DescendingIterator</a></li></ul></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/blog/assets/js/app.68faf095.js" defer></script><script src="/blog/assets/js/7.d6983c35.js" defer></script><script src="/blog/assets/js/2.babf9ded.js" defer></script><script src="/blog/assets/js/1.54955ac4.js" defer></script><script src="/blog/assets/js/40.0a51fdc7.js" defer></script>
+  </body>
+</html>
