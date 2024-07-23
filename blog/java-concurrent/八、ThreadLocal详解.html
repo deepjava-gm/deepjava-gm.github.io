@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ThreadLocal详解 | GM的博客</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="stylesheet" href="/blog/custom.css">
+    <script src="/blog/custom.js"></script>
+    <meta name="description" content="博观约取、厚积薄发。">
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.0612dbff.css" as="style"><link rel="preload" href="/blog/assets/js/app.77fe304b.js" as="script"><link rel="preload" href="/blog/assets/js/7.ae6c34c4.js" as="script"><link rel="preload" href="/blog/assets/js/2.aafcebc4.js" as="script"><link rel="preload" href="/blog/assets/js/1.2830a972.js" as="script"><link rel="preload" href="/blog/assets/js/58.eca614ee.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.920b7d6e.js"><link rel="prefetch" href="/blog/assets/js/11.20adb65b.js"><link rel="prefetch" href="/blog/assets/js/14.f3a08cb2.js"><link rel="prefetch" href="/blog/assets/js/15.feb3f68a.js"><link rel="prefetch" href="/blog/assets/js/16.5627e9c8.js"><link rel="prefetch" href="/blog/assets/js/17.cf799d13.js"><link rel="prefetch" href="/blog/assets/js/18.94e52d84.js"><link rel="prefetch" href="/blog/assets/js/19.e7bdbff9.js"><link rel="prefetch" href="/blog/assets/js/20.edcc8fad.js"><link rel="prefetch" href="/blog/assets/js/21.4268d6f7.js"><link rel="prefetch" href="/blog/assets/js/22.f6b8bd65.js"><link rel="prefetch" href="/blog/assets/js/23.35d678c5.js"><link rel="prefetch" href="/blog/assets/js/24.6cbe1cce.js"><link rel="prefetch" href="/blog/assets/js/25.29d310be.js"><link rel="prefetch" href="/blog/assets/js/26.692e69bd.js"><link rel="prefetch" href="/blog/assets/js/27.a396b304.js"><link rel="prefetch" href="/blog/assets/js/28.d05525df.js"><link rel="prefetch" href="/blog/assets/js/29.0156b5cc.js"><link rel="prefetch" href="/blog/assets/js/3.29479eab.js"><link rel="prefetch" href="/blog/assets/js/30.2962fbba.js"><link rel="prefetch" href="/blog/assets/js/31.39d4cb55.js"><link rel="prefetch" href="/blog/assets/js/32.746948c7.js"><link rel="prefetch" href="/blog/assets/js/33.72f5128a.js"><link rel="prefetch" href="/blog/assets/js/34.d9e34b8a.js"><link rel="prefetch" href="/blog/assets/js/35.598b443d.js"><link rel="prefetch" href="/blog/assets/js/36.71d98d02.js"><link rel="prefetch" href="/blog/assets/js/37.d91b968d.js"><link rel="prefetch" href="/blog/assets/js/38.26defef0.js"><link rel="prefetch" href="/blog/assets/js/39.e3701bb9.js"><link rel="prefetch" href="/blog/assets/js/4.0a37db01.js"><link rel="prefetch" href="/blog/assets/js/40.d28af403.js"><link rel="prefetch" href="/blog/assets/js/41.4c4e79ca.js"><link rel="prefetch" href="/blog/assets/js/42.33c0bcd1.js"><link rel="prefetch" href="/blog/assets/js/43.6a194844.js"><link rel="prefetch" href="/blog/assets/js/44.45063565.js"><link rel="prefetch" href="/blog/assets/js/45.65ed5be0.js"><link rel="prefetch" href="/blog/assets/js/46.f8015114.js"><link rel="prefetch" href="/blog/assets/js/47.67b2cefe.js"><link rel="prefetch" href="/blog/assets/js/48.da5c571a.js"><link rel="prefetch" href="/blog/assets/js/49.836d55ba.js"><link rel="prefetch" href="/blog/assets/js/5.305f3bef.js"><link rel="prefetch" href="/blog/assets/js/50.7adcf158.js"><link rel="prefetch" href="/blog/assets/js/51.05606dab.js"><link rel="prefetch" href="/blog/assets/js/52.09affb71.js"><link rel="prefetch" href="/blog/assets/js/53.9deb507e.js"><link rel="prefetch" href="/blog/assets/js/54.cf09e1f6.js"><link rel="prefetch" href="/blog/assets/js/55.e5635d7c.js"><link rel="prefetch" href="/blog/assets/js/56.4621426d.js"><link rel="prefetch" href="/blog/assets/js/57.edcd154d.js"><link rel="prefetch" href="/blog/assets/js/59.4b3ba6aa.js"><link rel="prefetch" href="/blog/assets/js/6.aeeed0ef.js"><link rel="prefetch" href="/blog/assets/js/60.6aee2e03.js"><link rel="prefetch" href="/blog/assets/js/61.9b9c4ab1.js"><link rel="prefetch" href="/blog/assets/js/62.da7dc994.js"><link rel="prefetch" href="/blog/assets/js/63.27c0bb7d.js"><link rel="prefetch" href="/blog/assets/js/64.ebb40448.js"><link rel="prefetch" href="/blog/assets/js/65.9504eca3.js"><link rel="prefetch" href="/blog/assets/js/66.325c6ecd.js"><link rel="prefetch" href="/blog/assets/js/67.59614689.js"><link rel="prefetch" href="/blog/assets/js/68.f650eb7f.js"><link rel="prefetch" href="/blog/assets/js/69.acc371a4.js"><link rel="prefetch" href="/blog/assets/js/70.4e449d6d.js"><link rel="prefetch" href="/blog/assets/js/71.cebd37d1.js"><link rel="prefetch" href="/blog/assets/js/72.516e8bed.js"><link rel="prefetch" href="/blog/assets/js/73.947717e2.js"><link rel="prefetch" href="/blog/assets/js/74.24a41228.js"><link rel="prefetch" href="/blog/assets/js/75.307afa38.js"><link rel="prefetch" href="/blog/assets/js/8.821d0483.js"><link rel="prefetch" href="/blog/assets/js/9.82e18295.js"><link rel="prefetch" href="/blog/assets/js/vendors~docsearch.6e140397.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.0612dbff.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-7dd95ae2><div data-v-7dd95ae2><div class="password-shadow password-wrapper-out" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>GM的博客</h3> <p class="description" data-v-59e6cb88>博观约取、厚积薄发。</p> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2024
+      </a></span></div></div> <div class="hide" data-v-7dd95ae2><header class="navbar" data-v-7dd95ae2><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><img src="/blog/head.jpg" alt="GM的博客" class="logo"> <span class="site-name">GM的博客</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="https://deepjava-gm.github.io" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  首页
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      GM的博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/deepjava-gm" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/qq_37883866" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  CSDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-7dd95ae2></div> <aside class="sidebar" data-v-7dd95ae2><div class="personal-info-wrapper" data-v-1fad0c41 data-v-7dd95ae2><!----> <!----> <div class="num" data-v-1fad0c41><div data-v-1fad0c41><h3 data-v-1fad0c41>37</h3> <h6 data-v-1fad0c41>文章</h6></div> <div data-v-1fad0c41><h3 data-v-1fad0c41>0</h3> <h6 data-v-1fad0c41>标签</h6></div></div> <ul class="social-links" data-v-1fad0c41></ul> <hr data-v-1fad0c41></div> <nav class="nav-links"><div class="nav-item"><a href="https://deepjava-gm.github.io" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  首页
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      GM的博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/deepjava-gm" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/qq_37883866" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  CSDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><a href="/blog/" class="sidebar-heading clickable router-link-active"><span>构建自己的Java知识体系</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/" aria-current="page" class="sidebar-link">引言</a></li><li><a href="/blog/contact.html" class="sidebar-link">反馈</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/javabase/一、Java基础知识" class="sidebar-heading clickable"><span>Java基础</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/java-collection/一、Java集合概述" class="sidebar-heading clickable"><span>Java集合</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/java-concurrent/一、Java并发编程基础知识点" class="sidebar-heading clickable open"><span>Java并发编程</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/java-concurrent/一、Java并发编程基础知识点.html" class="sidebar-link">一、Java并发编程基础知识点</a></li><li><a href="/blog/java-concurrent/二、JMM(Java内存模型)详解.html" class="sidebar-link">二、JMM(Java内存模型)详解</a></li><li><a href="/blog/java-concurrent/三、volatile关键字详解.html" class="sidebar-link">三、volatile关键字详解</a></li><li><a href="/blog/java-concurrent/四、synchronized关键字详解.html" class="sidebar-link">四、synchronized关键字详解</a></li><li><a href="/blog/java-concurrent/五、AQS详解.html" class="sidebar-link">五、AQS详解</a></li><li><a href="/blog/java-concurrent/六、LockSupport详解.html" class="sidebar-link">六、LockSupport详解</a></li><li><a href="/blog/java-concurrent/七、JUC包下的并发工具类.html" class="sidebar-link">七、JUC包下的并发工具类</a></li><li><a href="/blog/java-concurrent/八、ThreadLocal详解.html" class="active sidebar-link">八、ThreadLocal详解</a></li></ul></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88></h3> <!----> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2024
+      </a></span></div></div> <div data-v-7dd95ae2><div data-v-7dd95ae2><main class="page"><section style="display:;"><div class="page-title"><h1 class="title">ThreadLocal详解</h1> <div data-v-8a445198><!----> <!----> <!----> <!----></div></div> <div class="theme-reco-content content__default"><h1 id="threadlocal详解"><a href="#threadlocal详解" class="header-anchor">#</a> ThreadLocal详解</h1> <h2 id="_1、由同步引出threadlocal"><a href="#_1、由同步引出threadlocal" class="header-anchor">#</a> 1、由同步引出ThreadLocal</h2> <p>我们知道多线程并发访问同一个共享变量时容易出现线程安全问题，特别是在多个线程需要对一个共享变量进行修改操作时。<br>
+为了保证线程安全，我们在访问共享变量时需要进行适当的同步操作，比如用synchronized或者Lock。</p> <p>能不能像JMM中对线程工作内存规定的那样每个线程都有一份变量副本，当创建一个变量后，每个线程对其进行访问的时候<br>
+访问的是自己线程的变量副本呢？ ThreadLocal 就可以实现这个功能。  相当于每个线程都有一个自己的小抽屉，<br>
+这个抽屉内可以保存自己线程的ThreadLocal 变量，和其他线程无关。</p> <p>创建一个ThreadLocal 变量，访问这个变量的每个线程都会有这个变量的一个本地副本。当多个线程操作这个变量时，<br>
+实际操作的是自己本地内存里面的变量，从而避免了线程安全问题。创建一个 ThreadLocal 变量后，每个线程都会复制一个变量到自己的本地内存。</p> <img src="/blog/images/36-1.png" alt="mixureSecure"> <h2 id="_2、threadlocal-简单使用示例"><a href="#_2、threadlocal-简单使用示例" class="header-anchor">#</a> 2、ThreadLocal 简单使用示例</h2> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestA</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">static</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> localVariable <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            localVariable<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;秀逗&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">&quot;t1&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+        <span class="token class-name">Thread</span> t2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            localVariable<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;四眼&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">&quot;t2&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span>localVariable<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+<span class="token punctuation">}</span>
+</code></pre></div><p>运行结果：</p> <div class="language-java extra-class"><pre class="language-java"><code>t1秀逗
+t2四眼
+</code></pre></div><h2 id="_3、threadlocal-的实现原理"><a href="#_3、threadlocal-的实现原理" class="header-anchor">#</a> 3、ThreadLocal 的实现原理</h2> <h3 id="threadlocal-的继承结构和类属性"><a href="#threadlocal-的继承结构和类属性" class="header-anchor">#</a> ThreadLocal 的继承结构和类属性</h3> <p>类继承结构比较简单</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre></div><img src="/blog/images/36-2.png" alt="mixureSecure"> <p>不过ThreadLocal 有几个内部类比如：<code>SuppliedThreadLocal</code>、<code>ThreadLocalMap</code>、<code>Entry</code></p> <img src="/blog/images/36-3.png" alt="mixureSecure"> <p>下面详细分析ThreadLocal 内部结构。</p> <h3 id="threadlocal的set方法"><a href="#threadlocal的set方法" class="header-anchor">#</a> <code>ThreadLocal</code>的<code>set</code>方法</h3> <p><strong>ThreadLocal的set方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">/**
+ * 设置当前线程中与此ThreadLocal关联的值。
+ * 如果当前线程已经有一个ThreadLocalMap，那么更新其中的值。
+ * 否则，创建一个新的ThreadLocalMap并存储值。
+ *
+ * @param value 要存储的值
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">T</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取当前线程</span>
+    <span class="token class-name">Thread</span> t <span class="token operator">=</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 获取当前线程的ThreadLocalMap  </span>
+    <span class="token class-name">ThreadLocalMap</span> map <span class="token operator">=</span> <span class="token function">getMap</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 如果ThreadLocalMap不为空，则设置值</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>map <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        map<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 如果ThreadLocalMap为空，则创建新的ThreadLocalMap并设置值</span>
+    <span class="token keyword">else</span>
+        <span class="token function">createMap</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>ThreadLocal.threadLocals变量和getMap方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 当前线程的ThreadLocalMap，初始值为null</span>
+<span class="token comment">// Thread类中的一个变量</span>
+<span class="token class-name">ThreadLocal<span class="token punctuation">.</span>ThreadLocalMap</span> threadLocals <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * 获取指定线程的ThreadLocalMap。
+ *
+ * @param t 目标线程
+ * @return 目标线程的ThreadLocalMap
+ */</span>
+<span class="token class-name">ThreadLocalMap</span> <span class="token function">getMap</span><span class="token punctuation">(</span><span class="token class-name">Thread</span> t<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> t<span class="token punctuation">.</span>threadLocals<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>ThreadLocalMap的set方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">/**
+ * 在ThreadLocalMap中设置键值对。如果键已存在则替换旧值，
+ * 否则插入新键值对。如果发现陈旧的条目，则替换它们。
+ *
+ * @param key ThreadLocal的键
+ * @param value 关联的值
+ */</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> key<span class="token punctuation">,</span> <span class="token class-name">Object</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取表格数组</span>
+    <span class="token class-name">Entry</span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab <span class="token operator">=</span> table<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> len <span class="token operator">=</span> tab<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token comment">// 根据key的哈希值确定索引位置</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> key<span class="token punctuation">.</span>threadLocalHashCode <span class="token operator">&amp;</span> <span class="token punctuation">(</span>len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 遍历链表找到合适的位置插入或更新值</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Entry</span> e <span class="token operator">=</span> tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+         e <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+         e <span class="token operator">=</span> tab<span class="token punctuation">[</span>i <span class="token operator">=</span> <span class="token function">nextIndex</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> k <span class="token operator">=</span> e<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>k <span class="token operator">==</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 如果键已存在，则更新值</span>
+            e<span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>k <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 如果发现陈旧的条目，则替换它</span>
+            <span class="token function">replaceStaleEntry</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 如果没有找到现有的键或陈旧的条目，则插入新条目</span>
+    tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Entry</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> sz <span class="token operator">=</span> <span class="token operator">++</span>size<span class="token punctuation">;</span>
+    <span class="token comment">// 如果需要，则清理一些槽位或进行重哈希</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">cleanSomeSlots</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> sz<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> sz <span class="token operator">&gt;=</span> threshold<span class="token punctuation">)</span>
+        <span class="token function">rehash</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>createMap方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">/**
+ * 为指定线程创建一个新的ThreadLocalMap并存储初始值。
+ *
+ * @param t 目标线程
+ * @param firstValue 要存储的初始值
+ */</span>
+<span class="token keyword">void</span> <span class="token function">createMap</span><span class="token punctuation">(</span><span class="token class-name">Thread</span> t<span class="token punctuation">,</span> <span class="token class-name">T</span> firstValue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    t<span class="token punctuation">.</span>threadLocals <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocalMap</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> firstValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>ThreadLocalMap的构造方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">/**
+ * 创建一个新的ThreadLocalMap并将第一个键值对存储在其中。
+ *
+ * @param firstKey 初始键
+ * @param firstValue 初始值
+ */</span>
+<span class="token class-name">ThreadLocalMap</span><span class="token punctuation">(</span><span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> firstKey<span class="token punctuation">,</span> <span class="token class-name">Object</span> firstValue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    table <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Entry</span><span class="token punctuation">[</span><span class="token constant">INITIAL_CAPACITY</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">// 根据firstKey的哈希值确定索引位置</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> firstKey<span class="token punctuation">.</span>threadLocalHashCode <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token constant">INITIAL_CAPACITY</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 将初始键值对存储在表格数组中</span>
+    table<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Entry</span><span class="token punctuation">(</span>firstKey<span class="token punctuation">,</span> firstValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    size <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token function">setThreshold</span><span class="token punctuation">(</span><span class="token constant">INITIAL_CAPACITY</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>总结：<br>
+set方法首先检查当前线程是否已经有一个ThreadLocalMap实例，如果有则更新其中的值，如果没有则创建一个新的ThreadLocalMap并存储初始值。<br>
+ThreadLocalMap的set方法则负责将键值对插入到合适的位置，并处理可能存在的键冲突和更新旧数据。</p> <p>通过上面方法的分析就可以知道ThreadLocal的数据结构如下：<br>
+每个Thread类都有一个类型为ThreadLocal.ThreadLocalMap的变量threadLocals。<br>
+对应代码<code>ThreadLocal.ThreadLocalMap threadLocals = null;</code>。</p> <p>ThreadLocal的内部类ThreadLocalMap是个简单的键值对存储集合和HashMap有所区别(ThreadLocalMap是数组结构，<br>
+每个数组元素是一个<code>Entry extends WeakReference&lt;ThreadLocal&lt;?&gt;&gt;</code> ,并不像HashMap那样是数组+链表\红黑树结构)。</p> <p>对于下面代码画个图示来表示ThreadLocal的数据结构：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestA</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">static</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> c <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> d <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            a<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;秀逗&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            b<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;四眼&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            c<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;大黄&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            d<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;小黑&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">&quot;t1&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="图解threadlocal数据结构"><a href="#图解threadlocal数据结构" class="header-anchor">#</a> 图解ThreadLocal数据结构</h3> <img src="/blog/images/36-4.png" alt="mixureSecure"> <p>也可以利用反射断点看下t1线程的内部情况：<br>
+t1线程的 ThreadLocalMap 内部的 table结构。</p> <img src="/blog/images/36-5.png" alt="mixureSecure"> <h3 id="threadlocal的get方法"><a href="#threadlocal的get方法" class="header-anchor">#</a> <code>ThreadLocal</code>的<code>get</code>方法</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token class-name">T</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取当前线程</span>
+    <span class="token class-name">Thread</span> t <span class="token operator">=</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 获取当前线程的ThreadLocalMap对象</span>
+    <span class="token class-name">ThreadLocalMap</span> map <span class="token operator">=</span> <span class="token function">getMap</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>map <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 从map中获取当前ThreadLocal对象对应的条目</span>
+        <span class="token class-name">ThreadLocalMap<span class="token punctuation">.</span>Entry</span> e <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">getEntry</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">&quot;unchecked&quot;</span><span class="token punctuation">)</span>
+            <span class="token comment">// 返回条目中的值</span>
+            <span class="token class-name">T</span> result <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">T</span><span class="token punctuation">)</span>e<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 如果map为空或者没有对应的条目，则设置初始值并返回</span>
+    <span class="token keyword">return</span> <span class="token function">setInitialValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token class-name">ThreadLocalMap</span> <span class="token function">getMap</span><span class="token punctuation">(</span><span class="token class-name">Thread</span> t<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 返回当前线程的ThreadLocalMap</span>
+    <span class="token keyword">return</span> t<span class="token punctuation">.</span>threadLocals<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><strong>ThreadLocalMap 的getEntry方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token class-name">Entry</span> <span class="token function">getEntry</span><span class="token punctuation">(</span><span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 计算key的hash值在table中的索引</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> key<span class="token punctuation">.</span>threadLocalHashCode <span class="token operator">&amp;</span> <span class="token punctuation">(</span>table<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 获取对应索引的条目</span>
+    <span class="token class-name">Entry</span> e <span class="token operator">=</span> table<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">// 如果条目不为空并且条目的key等于当前key，则返回该条目</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> e<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> key<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> e<span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token comment">// 否则调用getEntryAfterMiss方法继续查找</span>
+        <span class="token keyword">return</span> <span class="token function">getEntryAfterMiss</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> i<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>ThreadLocalMap 的getEntryAfterMiss方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token class-name">Entry</span> <span class="token function">getEntryAfterMiss</span><span class="token punctuation">(</span><span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> key<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token class-name">Entry</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Entry</span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab <span class="token operator">=</span> table<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> len <span class="token operator">=</span> tab<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> k <span class="token operator">=</span> e<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>k <span class="token operator">==</span> key<span class="token punctuation">)</span>
+            <span class="token comment">// 找到匹配的条目</span>
+            <span class="token keyword">return</span> e<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>k <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token comment">// 清除过期条目</span>
+            <span class="token function">expungeStaleEntry</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+            <span class="token comment">// 计算下一个索引</span>
+            i <span class="token operator">=</span> <span class="token function">nextIndex</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        e <span class="token operator">=</span> tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 如果没有找到，返回null</span>
+    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>ThreadLocal的setInitialValue方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token class-name">T</span> <span class="token function">setInitialValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取初始值</span>
+    <span class="token class-name">T</span> value <span class="token operator">=</span> <span class="token function">initialValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 获取当前线程</span>
+    <span class="token class-name">Thread</span> t <span class="token operator">=</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 获取当前线程的ThreadLocalMap对象</span>
+    <span class="token class-name">ThreadLocalMap</span> map <span class="token operator">=</span> <span class="token function">getMap</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>map <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token comment">// 如果map不为空，则设置当前ThreadLocal对象的值</span>
+        map<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token comment">// 如果map为空，创建一个新的ThreadLocalMap并设置值</span>
+        <span class="token function">createMap</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 返回初始值</span>
+    <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>总结</strong></p> <ul><li><p>get() 方法首先获取当前线程，然后尝试从当前线程的 ThreadLocalMap 中获取与当前 ThreadLocal 实例关联的值。<br>
+如果找到了该值，则直接返回；否则调用 setInitialValue() 设置并返回初始值。</p></li> <li><p>getMap(Thread t) 方法返回当前线程的 ThreadLocalMap。</p></li> <li><p>getEntry(ThreadLocal&lt;?&gt; key) 方法通过计算哈希值获取与 key 关联的条目，如果没有找到，则调用 getEntryAfterMiss 继续查找。</p></li> <li><p>getEntryAfterMiss(ThreadLocal&lt;?&gt; key, int i, Entry e) 方法在哈希冲突时，通过线性探测法继续查找匹配的条目。</p></li> <li><p>setInitialValue() 方法设置当前 ThreadLocal 实例的初始值，如果当前线程的 ThreadLocalMap 为空，则创建一个新的 ThreadLocalMap 并设置初始值。</p></li></ul> <h3 id="threadlocalmap的一些性质"><a href="#threadlocalmap的一些性质" class="header-anchor">#</a> <code>ThreadLocalMap</code>的一些性质</h3> <p>ThreadLocalMap是ThreadLocal 的内部类，是真正存储数据的类。其内部还有一个Entry内部类。</p> <p>ThreadLocalMap内部数据结构  ：ThreadLocalMap 使用一个 Entry 数组来存储数据。</p> <p>默认容量 ：ThreadLocalMap 的默认初始容量为 16。</p> <p>扩容阈值：当 ThreadLocalMap 中的元素数量达到容量的 2/3 时，会触发扩容操作。</p> <p>每次扩容多少：每次扩容时，ThreadLocalMap 的容量会翻倍。这与大多数哈希表的扩容策略类似，以减少哈希冲突并保持良好的性能。</p> <p>Hash算法：使用自定义的哈希算法，基于 ThreadLocal 的 threadLocalHashCode 和斐波那契散列增量，确保哈希分布均匀。</p> <h2 id="_4、threadlocal-内存泄漏问题"><a href="#_4、threadlocal-内存泄漏问题" class="header-anchor">#</a> 4、ThreadLocal 内存泄漏问题</h2> <p>我们看下ThreadLocalMap的源码：</p> <div class="language-java extra-class"><pre class="language-java"><code>   <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">ThreadLocalMap</span> <span class="token punctuation">{</span>
+		
+		<span class="token comment">// ThreadLocalMap 的静态内部类 继承WeakReference 弱引用  </span>
+		<span class="token comment">// 用于存储 线程的  本地变量 ThreadLocal </span>
+        <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Entry</span> <span class="token keyword">extends</span> <span class="token class-name">WeakReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ThreadLocal</span><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+            <span class="token class-name">Object</span> value<span class="token punctuation">;</span>
+
+            <span class="token class-name">Entry</span><span class="token punctuation">(</span><span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> k<span class="token punctuation">,</span> <span class="token class-name">Object</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">super</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                value <span class="token operator">=</span> v<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token comment">// Entry[]数组的初始容量是16</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">INITIAL_CAPACITY</span> <span class="token operator">=</span> <span class="token number">16</span><span class="token punctuation">;</span>
+
+		<span class="token comment">// Entry[]数组 用于存储 Entry对象 </span>
+        <span class="token keyword">private</span> <span class="token class-name">Entry</span><span class="token punctuation">[</span><span class="token punctuation">]</span> table<span class="token punctuation">;</span>
+        
+        <span class="token comment">// ThreadLocalMap 的元素个数</span>
+     	<span class="token keyword">private</span> <span class="token keyword">int</span> size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 扩容阈值</span>
+        <span class="token keyword">private</span> <span class="token keyword">int</span> threshold<span class="token punctuation">;</span> <span class="token comment">// Default to 0</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="补充知识点"><a href="#补充知识点" class="header-anchor">#</a> 补充知识点：</h3> <h3 id="java中的四种引用类型-强、软、弱、虚引用。"><a href="#java中的四种引用类型-强、软、弱、虚引用。" class="header-anchor">#</a> Java中的四种引用类型： 强、软、弱、虚引用。</h3> <p>Java 中提供了四种引用类型，用于不同的内存管理策略：强引用、软引用、弱引用和虚引用。它们的区别在于垃圾回收器对这些引用所关联对象的处理方式。<br>
+也就是说强、软、弱、虚引用主要和JVM的垃圾回收相关。</p> <ol><li>强引用 (Strong Reference)<br>
+这是 Java 的默认引用类型。任何通过普通变量引用的对象都是强引用。例如：</li></ol> <div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">Object</span> obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre></div><p>特点：<br>
+只要某个对象存在强引用，它就不会被垃圾回收器回收。<br>
+当内存不足时，Java 虚拟机宁愿抛出 OutOfMemoryError，也不会回收这些强引用对象。</p> <ol start="2"><li>软引用 (Soft Reference)<br>
+软引用用于描述一些有用但并非必需的对象。在内存足够时，软引用的对象不会被回收；但在内存不足时，它们会被回收以释放内存。<br>
+用法：</li></ol> <div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">SoftReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span> softRef <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SoftReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Object</span> obj <span class="token operator">=</span> softRef<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 获取被软引用的对象</span>
+</code></pre></div><p>特点：<br>
+软引用适合用于缓存，例如浏览器中的页面缓存。<br>
+在系统将要发生内存溢出之前，会将这些对象列入回收范围，并且会在回收之前将它们添加到引用队列中。</p> <ol start="3"><li>弱引用 (Weak Reference)<br>
+弱引用是用来描述非必需对象，强引用消失后，弱引用对象就会被垃圾回收器回收。与软引用相比，只要垃圾回收器运行，不论内存是否充足，都会回收弱引用的对象。
+用法：</li></ol> <div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">WeakReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span> weakRef <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Object</span> obj <span class="token operator">=</span> weakRef<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 获取被弱引用的对象</span>
+</code></pre></div><p>特点：<br>
+弱引用适合用于某些不常用的对象，例如映射表中的键。<br>
+这种引用类型的对象更容易被垃圾回收。</p> <ol start="4"><li>虚引用 (Phantom Reference)<br>
+虚引用仅用于跟踪对象的销毁。它的唯一作用是在对象被垃圾回收器回收时收到一个系统通知。<br>
+用法：</li></ol> <div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">PhantomReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span> phantomRef <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PhantomReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">ReferenceQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Object</span> obj <span class="token operator">=</span> phantomRef<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 永远返回null</span>
+</code></pre></div><p>特点：<br>
+虚引用对象永远无法通过 get() 方法访问。<br>
+它必须与 ReferenceQueue 一起使用，当对象被回收时，虚引用会被放入引用队列。</p> <h3 id="threadlocalmap的内部类entry"><a href="#threadlocalmap的内部类entry" class="header-anchor">#</a> <code>ThreadLocalMap</code>的内部类<code>Entry</code></h3> <p>在 ThreadLocalMap 中，Entry 继承自 WeakReference。因此，Entry 具有一些特定的属性，如下所示：</p> <img src="/blog/images/36-6.png" alt="mixureSecure"> <p>主要属性如下：</p> <div class="language-java extra-class"><pre class="language-java"><code>value
+类型：<span class="token class-name">Object</span>
+说明：存储 <span class="token class-name">ThreadLocal</span> 对象的值。在上图中，value 被设置为 <span class="token string">&quot;四眼&quot;</span>。  
+该属性可以理解为<span class="token class-name">ThreadLocalMap</span>中存储的`<span class="token class-name">Entry</span>`对象的value。  
+
+referent
+类型：<span class="token class-name">ThreadLocal</span>
+说明：作为 <span class="token class-name">WeakReference</span> 的 referent，也即弱引用指向的对象。在上图中，referent 是 <span class="token class-name">ThreadLocal</span> 对象（<span class="token class-name">ThreadLocal</span><span class="token annotation punctuation">@678</span>）。
+继承自 <span class="token class-name">WeakReference</span> 的属性，<span class="token class-name">WeakReference</span> 又继承自<span class="token class-name">Reference</span>抽象类的属性。   
+该属性可以理解为<span class="token class-name">ThreadLocalMap</span>中存储的`<span class="token class-name">Entry</span>`对象的key。  
+
+queue  
+类型：<span class="token class-name">ReferenceQueue</span>  
+说明：引用队列。当弱引用指向的对象被垃圾回收器回收时，弱引用自身会被放入这个引用队列中。
+
+next
+类型：<span class="token class-name">Reference</span>
+说明：用于引用队列中的链表结构，指向下一个引用。
+
+discovered
+类型：<span class="token class-name">Reference</span>
+说明：在某些 <span class="token constant">GC</span> 实现中用于处理引用队列。  
+</code></pre></div><h3 id="可能造成内存泄漏的原因"><a href="#可能造成内存泄漏的原因" class="header-anchor">#</a> 可能造成内存泄漏的原因：</h3> <p>当 referent 被回收后，Entry 的键变为 null，但是 value 仍然占用内存。这些未被清理的值会导致内存泄漏，尤其是在线程池中使用 ThreadLocal 时，线程对象长时间不被销毁，泄漏的可能性更大。</p> <p>举个例子：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">static</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span>  <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            a<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;秀逗&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;四眼&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">LockSupport</span><span class="token punctuation">.</span><span class="token function">park</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">&quot;t1&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">gc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p>我们反射断点看下t1线程内部的table</p> <img src="/blog/images/36-7.png" alt="mixureSecure"> <p>四眼这个变量的key被回收了是因为，发生了gc，并且<code>new ThreadLocal&lt;&gt;().set(&quot;四眼&quot;);</code>只是创建了ThreadLocal对象，并没有任何引入指向这个对象。</p> <img src="/blog/images/36-8.png" alt="mixureSecure"> <p>秀逗这个变量的key没有回收是因为<code>static ThreadLocal&lt;String&gt; a = new ThreadLocal&lt;&gt;();</code>这里的a是个强引用，即使发生了gc，也不会导致referent被回收。</p> <p>如果线程 t1 一直运行，并且 ThreadLocal 对象的键（referent）已经被回收，那么它的值（value）不会自动被回收。这是因为 ThreadLocalMap 中的 Entry 对象还持有对值(四眼)的强引用，导致内存泄漏。</p> <h3 id="threadlocal-的remove方法"><a href="#threadlocal-的remove方法" class="header-anchor">#</a> ThreadLocal 的remove方法</h3> <p><strong>ThreadLocal 的remove方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取当前线程的 ThreadLocalMap 实例</span>
+    <span class="token class-name">ThreadLocalMap</span> m <span class="token operator">=</span> <span class="token function">getMap</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 如果当前线程的 ThreadLocalMap 不为空，则从中移除当前 ThreadLocal 实例</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        m<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>ThreadLocalMap 的remove方法</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取内部的 Entry 数组</span>
+    <span class="token class-name">Entry</span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab <span class="token operator">=</span> table<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> len <span class="token operator">=</span> tab<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token comment">// 计算 key 的哈希码在数组中的索引</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> key<span class="token punctuation">.</span>threadLocalHashCode <span class="token operator">&amp;</span> <span class="token punctuation">(</span>len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 遍历数组，找到与 key 关联的 Entry</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Entry</span> e <span class="token operator">=</span> tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> e <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> e <span class="token operator">=</span> tab<span class="token punctuation">[</span>i <span class="token operator">=</span> <span class="token function">nextIndex</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果找到目标 key</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 清除该 Entry 的 value</span>
+            e<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 清除过期的 Entry</span>
+            <span class="token function">expungeStaleEntry</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="清除过期的-entry"><a href="#清除过期的-entry" class="header-anchor">#</a> 清除过期的 Entry</h3> <p>在 ThreadLocalMap 中，过期的 Entry 出现主要是因为 ThreadLocal 实例被垃圾回收（GC）了，但是对应的 Entry 还留在 ThreadLocalMap 中。这种情况会导致内存泄漏，因为这些 Entry 仍然引用着可能不再需要的对象。</p> <p>过期 Entry 出现的原因：<br> <strong>ThreadLocal 实例被回收:</strong>
+当一个 ThreadLocal 实例不再被任何地方引用时，GC 会回收这个 ThreadLocal 实例。由于 ThreadLocalMap 中的 Entry 使用 WeakReference 持有 ThreadLocal 的键，当 ThreadLocal 被回收后，WeakReference 会返回 null。</p> <p><strong>ThreadLocalMap 中的 Entry 没有及时清理:</strong>
+ThreadLocalMap 的 Entry 数组中可能仍然存在对被回收 ThreadLocal 键的引用，但这些键已经变成了 null，所以这些 Entry 变成了“过期”的 Entry。</p> <p><strong>清除过期的 Entry  的方法 expungeStaleEntry</strong></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token keyword">int</span> <span class="token function">expungeStaleEntry</span><span class="token punctuation">(</span><span class="token keyword">int</span> staleSlot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取内部的 Entry 数组</span>
+    <span class="token class-name">Entry</span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab <span class="token operator">=</span> table<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> len <span class="token operator">=</span> tab<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+
+    <span class="token comment">// 清除 staleSlot 位置的 entry</span>
+    tab<span class="token punctuation">[</span>staleSlot<span class="token punctuation">]</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    tab<span class="token punctuation">[</span>staleSlot<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    size<span class="token operator">--</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">Entry</span> e<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+
+    <span class="token comment">// 从 staleSlot 的下一个位置开始，重新哈希直到遇到 null</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token function">nextIndex</span><span class="token punctuation">(</span>staleSlot<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">(</span>e <span class="token operator">=</span> tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+         i <span class="token operator">=</span> <span class="token function">nextIndex</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span> k <span class="token operator">=</span> e<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>k <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 清除无效的 entry</span>
+            e<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            size<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 重新计算哈希位置</span>
+            <span class="token keyword">int</span> h <span class="token operator">=</span> k<span class="token punctuation">.</span>threadLocalHashCode <span class="token operator">&amp;</span> <span class="token punctuation">(</span>len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// 如果 entry 的哈希位置不正确，则移动到正确的位置</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">!=</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+                <span class="token comment">// 扫描直到遇到 null</span>
+                <span class="token keyword">while</span> <span class="token punctuation">(</span>tab<span class="token punctuation">[</span>h<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+                    h <span class="token operator">=</span> <span class="token function">nextIndex</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                tab<span class="token punctuation">[</span>h<span class="token punctuation">]</span> <span class="token operator">=</span> e<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>总结：<br>
+expungeStaleEntry 方法通过清除过期的 Entry 并重新哈希剩余的 Entry，确保 ThreadLocalMap 的有效性和性能。这种机制防止了内存泄漏，同时保证了 ThreadLocal 变量的正确管理。</p> <h3 id="建议threadlocal-使用完毕后手动remove"><a href="#建议threadlocal-使用完毕后手动remove" class="header-anchor">#</a> 建议ThreadLocal 使用完毕后手动remove</h3> <p>在使用 ThreadLocal 变量时，建议在使用完毕后显式调用 remove() 方法。这有助于避免内存泄漏，确保系统资源能够被及时释放。</p> <h2 id="_5、threadlocal-的适用场景"><a href="#_5、threadlocal-的适用场景" class="header-anchor">#</a> 5、ThreadLocal 的适用场景</h2> <p>下面列举几个具体的使用场景：</p> <h3 id="_1、存储用户会话数据"><a href="#_1、存储用户会话数据" class="header-anchor">#</a> ①、存储用户会话数据：</h3> <p>在 Web 应用中，ThreadLocal 可以用于存储用户会话数据，比如用户的身份信息、权限等。每个线程处理不同的用户请求时，可以通过 ThreadLocal 来隔离不同用户的数据。这是个非常典型的ThreadLocal 应用场景，我公司的通用网关服务中就是使用ThreadLocal 来存储会话相关的线程变量。使用起来非常方便。</p> <p>具体的做法：<br> <strong>先利用ThreadLocal封装一个线程上下文处理器。</strong><br>
+下面这个<code>ContextHandler</code> 为了适应业务封装了比较多信息。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">HashMap</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">List</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">Map</span></span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * 线程上下文处理器  
+ * 主要用于保存用户线程的会话信息
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ContextHandler</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// 泛型使用Map&lt;String, Object&gt; 方便灵活保存各种信息</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Map</span><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span></span> threadLocal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 用户ID
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_USER_ID</span> <span class="token operator">=</span> <span class="token string">&quot;userId&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 登录名 
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_USERNAME</span> <span class="token operator">=</span> <span class="token string">&quot;username&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 姓名 
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_NAME</span> <span class="token operator">=</span> <span class="token string">&quot;name&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * token
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_TOKEN</span> <span class="token operator">=</span> <span class="token string">&quot;token&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 权限集合
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_PERMISSION</span> <span class="token operator">=</span> <span class="token string">&quot;permission&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 超级管理员（系统默认最高管理员）
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_SUPER_ADMIN</span> <span class="token operator">=</span> <span class="token string">&quot;superAdmin&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 角色编码
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_ROLE_CODE</span> <span class="token operator">=</span> <span class="token string">&quot;roleCode&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 数据源连接（动态数据源切换时使用）
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> <span class="token constant">CONTEXT_KEY_DS_CONN</span> <span class="token operator">=</span> <span class="token string">&quot;dsConn&quot;</span><span class="token punctuation">;</span>
+
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">String</span> key<span class="token punctuation">,</span> <span class="token class-name">Object</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span> map <span class="token operator">=</span> threadLocal<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>map <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            threadLocal<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Object</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span> map <span class="token operator">=</span> threadLocal<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>map <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            threadLocal<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_USER_ID</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">returnObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_USERNAME</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">returnObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_NAME</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">returnObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_TOKEN</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">getObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getPermission</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_PERMISSION</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">getObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">getSuperAdmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_SUPER_ADMIN</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token class-name">Boolean</span><span class="token punctuation">.</span><span class="token function">parseBoolean</span><span class="token punctuation">(</span><span class="token function">getObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getRoleCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_ROLE_CODE</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">getObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getDsConn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Object</span> value <span class="token operator">=</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_DS_CONN</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">getObjectValue</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setUserId</span><span class="token punctuation">(</span><span class="token class-name">String</span> userId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_USER_ID</span><span class="token punctuation">,</span> userId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setUsername</span><span class="token punctuation">(</span><span class="token class-name">String</span> username<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_USERNAME</span><span class="token punctuation">,</span> username<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setName</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_NAME</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setToken</span><span class="token punctuation">(</span><span class="token class-name">String</span> token<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_TOKEN</span><span class="token punctuation">,</span> token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setPermission</span><span class="token punctuation">(</span><span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">List</span><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span></span> userPermission<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_PERMISSION</span><span class="token punctuation">,</span> userPermission<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setSuperAdmin</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> isSupperAdmin<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_SUPER_ADMIN</span><span class="token punctuation">,</span> isSupperAdmin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setRoleCode</span><span class="token punctuation">(</span><span class="token class-name">String</span> roleCode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_ROLE_CODE</span><span class="token punctuation">,</span> roleCode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setDsConn</span><span class="token punctuation">(</span><span class="token class-name">String</span> dsConn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">set</span><span class="token punctuation">(</span><span class="token constant">CONTEXT_KEY_DS_CONN</span><span class="token punctuation">,</span> dsConn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        threadLocal<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">returnObjectValue</span><span class="token punctuation">(</span><span class="token class-name">Object</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> value <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">?</span> <span class="token keyword">null</span> <span class="token operator">:</span> value<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getObjectValue</span><span class="token punctuation">(</span><span class="token class-name">Object</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> obj <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">?</span> <span class="token string">&quot;&quot;</span> <span class="token operator">:</span> obj<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+</code></pre></div><p><strong>在网关服务的过滤器中对每个用户请求线程设置ContextHandler所需要的值。</strong><br>
+我们使用的基础网关是<code>com.netflix.zuul</code></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AuthZuulFilter</span> <span class="token keyword">extends</span> <span class="token class-name">ZuulFilter</span> <span class="token punctuation">{</span>
+
+	 <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">filterOrder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+  <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">shouldFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment">// ...  过滤规则省略</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Object</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">RequestContext</span> ctx <span class="token operator">=</span> <span class="token class-name">RequestContext</span><span class="token punctuation">.</span><span class="token function">getCurrentContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setCharacterEncoding</span><span class="token punctuation">(</span><span class="token string">&quot;UTF-8&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">HttpServletRequest</span> request <span class="token operator">=</span> ctx<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">&quot;send {} request to {}&quot;</span><span class="token punctuation">,</span> request<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> request<span class="token punctuation">.</span><span class="token function">getRequestURL</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">String</span> token <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getHeader</span><span class="token punctuation">(</span><span class="token class-name">JwtConstant</span><span class="token punctuation">.</span><span class="token constant">JWT_AUTH_HEADER</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 这里主要是为了方便调试 加了个token的后门</span>
+		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">isBlank</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            token <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span><span class="token string">&quot;_token&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/*
+         * 校验权限——登录
+         */</span>
+        <span class="token class-name">String</span> userId<span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">//检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回</span>
+            <span class="token class-name">Account</span> auth <span class="token operator">=</span> tokenFactory<span class="token punctuation">.</span><span class="token function">validateToken</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            userId <span class="token operator">=</span> auth<span class="token punctuation">.</span><span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token comment">// 如果登录成功 就添加当前登录线程的会话信息到 ContextHandler ，最终是存储到线程的ThreadLocal变量中</span>
+            <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">setUserId</span><span class="token punctuation">(</span>auth<span class="token punctuation">.</span><span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">setUsername</span><span class="token punctuation">(</span>auth<span class="token punctuation">.</span><span class="token function">getUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">setSuperAdmin</span><span class="token punctuation">(</span>auth<span class="token punctuation">.</span><span class="token function">getLoginName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>superAdmin<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">UnAuthorizedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// ... 省略</span>
+            <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+           <span class="token comment">// ... 省略</span>
+            <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+		<span class="token comment">// ... 省略</span>
+        <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><strong>每次会话结束后再主动remove，防止内存泄露</strong><br>
+利用Spring 提供的<code>OncePerRequestFilter</code>过滤器确保每个 HTTP 请求只被过滤器处理一次。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ContextFilterProcessor</span> <span class="token keyword">extends</span> <span class="token class-name">OncePerRequestFilter</span> <span class="token punctuation">{</span>
+	
+	 <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">doFilterInternal</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">,</span>
+                                    <span class="token class-name">FilterChain</span> filterChain<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+			<span class="token comment">// ... 省略</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">&quot;current request url: {}&quot;</span><span class="token punctuation">,</span> request<span class="token punctuation">.</span><span class="token function">getServletPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            filterChain<span class="token punctuation">.</span><span class="token function">doFilter</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">&quot;请求异常&quot;</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            response<span class="token punctuation">.</span><span class="token function">sendError</span><span class="token punctuation">(</span><span class="token class-name">HttpServletResponse</span><span class="token punctuation">.</span><span class="token constant">SC_PRECONDITION_FAILED</span><span class="token punctuation">,</span> <span class="token string">&quot;请求异常&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+			<span class="token comment">// 在 finally 块中 remove ThreadLocal变量 防止内存泄露</span>
+            <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><strong><code>ContextHandler</code>使用起来非常简单方便：</strong>
+对于一些需要做人员数据权限的场景来说很好用。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 获取当前用户的id</span>
+<span class="token class-name">String</span> userId <span class="token operator">=</span> <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>只不过ThreadLocal 在异步场景下子线程无法共享父线程中创建的ThreadLocal变量数据。如果子线程也需要父线程中的ThreadLocal变量，需要手动在子线程中设置。</p> <p>这个在下面第6节会详细说到。</p> <h3 id="_2、事务管理"><a href="#_2、事务管理" class="header-anchor">#</a> ②、事务管理</h3> <p>在数据库操作中，ThreadLocal 可以用于管理事务。例如，在每个线程中维护事务的状态或数据库连接，使得在同一线程中的操作共享相同的事务上下文。<br>
+下面是简单的示例伪代码：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TransactionManager</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Connection</span><span class="token punctuation">&gt;</span></span> connectionHolder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Connection</span> <span class="token function">getConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> connectionHolder<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setConnection</span><span class="token punctuation">(</span><span class="token class-name">Connection</span> connection<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        connectionHolder<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>connection<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        connectionHolder<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="_3、日志上下文"><a href="#_3、日志上下文" class="header-anchor">#</a> ③、日志上下文</h3> <p>ThreadLocal 可以用于在日志记录中存储线程特定的信息，如日志上下文或跟踪 ID。这有助于在分布式系统中追踪和调试问题。<br>
+如果做链路追踪可以考虑。<br>
+下面是简单的示例伪代码：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LogContext</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> requestId <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setRequestId</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        requestId<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getRequestId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> requestId<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        requestId<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="_4、使用副本变量保证线程安全的场景"><a href="#_4、使用副本变量保证线程安全的场景" class="header-anchor">#</a> ④、使用副本变量保证线程安全的场景</h3> <p>使用 ThreadLocal 来管理线程局部变量是解决线程安全问题的一种有效方法。特别是在需要确保每个线程都有自己独立的实例时，例如在处理线程不安全的对象（如 SimpleDateFormat）时，利用ThreadLocal 来存储 DateFormat(SimpleDateFormat的父类) 实例，以确保每个线程都拥有自己独立的 SimpleDateFormat实例，从而避免了线程间的竞态条件和不一致性。</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>text<span class="token punctuation">.</span></span><span class="token class-name">DateFormat</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>text<span class="token punctuation">.</span></span><span class="token class-name">SimpleDateFormat</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DateUtils</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">DateFormat</span><span class="token punctuation">&gt;</span></span> simpleDateFormat <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">DateFormat</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">// 利用重新 initialValue() 方法来创建每个线程的DateFormat初始值</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">protected</span> <span class="token class-name">DateFormat</span> <span class="token function">initialValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SimpleDateFormat</span><span class="token punctuation">(</span><span class="token string">&quot;yyyy-MM-dd&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>使用也非常简单：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token class-name">ThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">DateFormat</span><span class="token punctuation">&gt;</span></span> simpleDateFormat <span class="token operator">=</span> <span class="token class-name">DateUtils</span><span class="token punctuation">.</span>simpleDateFormat<span class="token punctuation">;</span>
+<span class="token class-name">DateFormat</span> dateFormat <span class="token operator">=</span> simpleDateFormat<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">String</span> format <span class="token operator">=</span> dateFormat<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="_6、注意-threadlocal-不支持继承性"><a href="#_6、注意-threadlocal-不支持继承性" class="header-anchor">#</a> 6、注意：ThreadLocal 不支持继承性</h2> <h3 id="问题演示"><a href="#问题演示" class="header-anchor">#</a> 问题演示</h3> <p>这里说的继承性是指在父线程内创建子线程，那么子线程无法获取父线程中的ThreadLocal变量。<br>
+这意味着在创建子线程时，子线程不会自动继承父线程中的 ThreadLocal 变量。这是 ThreadLocal 的设计中的一个重要考虑点，通常是为了避免线程间的隐式依赖和共享状态。</p> <p>这里我们使用上面第5节第①小点的会话变量来演示下：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestA</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> userId <span class="token operator">=</span> <span class="token string">&quot;123&quot;</span><span class="token punctuation">;</span>
+        <span class="token comment">// 主线程中设置 用户id</span>
+        <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">setUserId</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 在主线程中创建子线程 t1</span>
+        <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;子线程中获取用户id: &quot;</span> <span class="token operator">+</span> <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">&quot;t1&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 主线程中获取用户id</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;主线程中获取用户id: &quot;</span> <span class="token operator">+</span> <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>运行结果：</p> <div class="language-java extra-class"><pre class="language-java"><code>主线程中获取用户id<span class="token operator">:</span> <span class="token number">123</span>
+子线程中获取用户id<span class="token operator">:</span> <span class="token keyword">null</span>
+</code></pre></div><p>ThreadLocal 不支持继承性 这种设计只能说是一种特性，因为的确有时候并不需要线程之间进行ThreadLocal 副本数据的传递。<br>
+但是有些时候又是需要传递的。 比如上面的例子中我需要在t1线程中获取当前登录人id的情况。</p> <h3 id="解决方案"><a href="#解决方案" class="header-anchor">#</a> 解决方案</h3> <p>有两种解决方案可以实现子线程能够获取到相应的ThreadLocal 副本数据：<br>
+①、直接设置子线程的副本变量<br>
+优点：这种方式简单直接，而且灵活。
+缺点： 如果忘记设置，可能会造成业务代码出错。<br>
+代码示例：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestA</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> userId <span class="token operator">=</span> <span class="token string">&quot;123&quot;</span><span class="token punctuation">;</span>
+        <span class="token comment">// 主线程中设置 用户id</span>
+        <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">setUserId</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 在主线程中创建子线程 t1</span>
+        <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 手动设置子线程的useId副本变量</span>
+            <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">setUserId</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;子线程中获取用户id: &quot;</span> <span class="token operator">+</span> <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">&quot;t1&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 主线程中获取用户id</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;主线程中获取用户id: &quot;</span> <span class="token operator">+</span> <span class="token class-name">ContextHandler</span><span class="token punctuation">.</span><span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>运行结果：</p> <div class="language-java extra-class"><pre class="language-java"><code>主线程中获取用户id<span class="token operator">:</span> <span class="token number">123</span>
+子线程中获取用户id<span class="token operator">:</span> <span class="token number">123</span>
+</code></pre></div><p>我们生产使用的是第一种方式，需要自己设置子线程的副本变量，虽然麻烦了一些，但是对于处理复杂的数据权限业务来说比较灵活。同时如果把上面封装的 <code>ContextHandler</code> 作为公司的框架级服务，需要在代码规范中强调 封装的ThreadLocal 不支持继承性以免造成代码编写错误。</p> <p>②、使用<code>InheritableThreadLocal</code></p> <p><code>InheritableThreadLocal</code> 是 <code>ThreadLocal</code> 的一个子类，允许子线程继承父线程中的 <code>ThreadLocal</code> 变量。与 <code>ThreadLocal</code> 不同，<code>InheritableThreadLocal</code> 使得在创建子线程时，子线程可以自动获得父线程中的 <code>InheritableThreadLocal</code> 变量的值。
+代码示例：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestA</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token class-name">InheritableThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> userId <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">InheritableThreadLocal</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        userId<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">&quot;123&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 在主线程中创建子线程 t1</span>
+        <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;子线程中获取用户id: &quot;</span> <span class="token operator">+</span> userId<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">&quot;t1&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 主线程中获取用户id</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;主线程中获取用户id: &quot;</span> <span class="token operator">+</span> userId<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>运行结果：</p> <div class="language-java extra-class"><pre class="language-java"><code>主线程中获取用户id<span class="token operator">:</span> <span class="token number">123</span>
+子线程中获取用户id<span class="token operator">:</span> <span class="token number">123</span>
+</code></pre></div><p>还是建议使用方式①，自己设置值，比较灵活。</p> <p>参考资料：<br>
+《Java并发编程之美》<br>
+https://juejin.cn/post/6844904151567040519<br>
+https://pdai.tech/md/java/thread/java-thread-x-threadlocal.html</p></div></section> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev"><a href="/blog/java-concurrent/七、JUC包下的并发工具类.html" class="prev">
+          七、JUC包下的并发工具类
+        </a></span> <!----></p></div> <div class="comments-wrapper"><!----></div></main></div> <!----></div> <ul class="sub-sidebar sub-sidebar-wrapper" style="width:12rem;" data-v-b57cc07c data-v-7dd95ae2><li class="level-2" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_1、由同步引出threadlocal" class="sidebar-link reco-side-_1、由同步引出threadlocal" data-v-b57cc07c>1、由同步引出ThreadLocal</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_2、threadlocal-简单使用示例" class="sidebar-link reco-side-_2、threadlocal-简单使用示例" data-v-b57cc07c>2、ThreadLocal 简单使用示例</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_3、threadlocal-的实现原理" class="sidebar-link reco-side-_3、threadlocal-的实现原理" data-v-b57cc07c>3、ThreadLocal 的实现原理</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#threadlocal-的继承结构和类属性" class="sidebar-link reco-side-threadlocal-的继承结构和类属性" data-v-b57cc07c>ThreadLocal 的继承结构和类属性</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#threadlocal的set方法" class="sidebar-link reco-side-threadlocal的set方法" data-v-b57cc07c>ThreadLocal的set方法</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#图解threadlocal数据结构" class="sidebar-link reco-side-图解threadlocal数据结构" data-v-b57cc07c>图解ThreadLocal数据结构</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#threadlocal的get方法" class="sidebar-link reco-side-threadlocal的get方法" data-v-b57cc07c>ThreadLocal的get方法</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#threadlocalmap的一些性质" class="sidebar-link reco-side-threadlocalmap的一些性质" data-v-b57cc07c>ThreadLocalMap的一些性质</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_4、threadlocal-内存泄漏问题" class="sidebar-link reco-side-_4、threadlocal-内存泄漏问题" data-v-b57cc07c>4、ThreadLocal 内存泄漏问题</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#补充知识点" class="sidebar-link reco-side-补充知识点" data-v-b57cc07c>补充知识点：</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#java中的四种引用类型-强、软、弱、虚引用。" class="sidebar-link reco-side-java中的四种引用类型-强、软、弱、虚引用。" data-v-b57cc07c>Java中的四种引用类型： 强、软、弱、虚引用。</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#threadlocalmap的内部类entry" class="sidebar-link reco-side-threadlocalmap的内部类entry" data-v-b57cc07c>ThreadLocalMap的内部类Entry</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#可能造成内存泄漏的原因" class="sidebar-link reco-side-可能造成内存泄漏的原因" data-v-b57cc07c>可能造成内存泄漏的原因：</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#threadlocal-的remove方法" class="sidebar-link reco-side-threadlocal-的remove方法" data-v-b57cc07c>ThreadLocal 的remove方法</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#清除过期的-entry" class="sidebar-link reco-side-清除过期的-entry" data-v-b57cc07c>清除过期的 Entry</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#建议threadlocal-使用完毕后手动remove" class="sidebar-link reco-side-建议threadlocal-使用完毕后手动remove" data-v-b57cc07c>建议ThreadLocal 使用完毕后手动remove</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_5、threadlocal-的适用场景" class="sidebar-link reco-side-_5、threadlocal-的适用场景" data-v-b57cc07c>5、ThreadLocal 的适用场景</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_1、存储用户会话数据" class="sidebar-link reco-side-_1、存储用户会话数据" data-v-b57cc07c>①、存储用户会话数据：</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_2、事务管理" class="sidebar-link reco-side-_2、事务管理" data-v-b57cc07c>②、事务管理</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_3、日志上下文" class="sidebar-link reco-side-_3、日志上下文" data-v-b57cc07c>③、日志上下文</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_4、使用副本变量保证线程安全的场景" class="sidebar-link reco-side-_4、使用副本变量保证线程安全的场景" data-v-b57cc07c>④、使用副本变量保证线程安全的场景</a></li><li class="level-2" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#_6、注意-threadlocal-不支持继承性" class="sidebar-link reco-side-_6、注意-threadlocal-不支持继承性" data-v-b57cc07c>6、注意：ThreadLocal 不支持继承性</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#问题演示" class="sidebar-link reco-side-问题演示" data-v-b57cc07c>问题演示</a></li><li class="level-3" data-v-b57cc07c><a href="/blog/java-concurrent/%E5%85%AB%E3%80%81ThreadLocal%E8%AF%A6%E8%A7%A3.html#解决方案" class="sidebar-link reco-side-解决方案" data-v-b57cc07c>解决方案</a></li></ul></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/blog/assets/js/app.77fe304b.js" defer></script><script src="/blog/assets/js/7.ae6c34c4.js" defer></script><script src="/blog/assets/js/2.aafcebc4.js" defer></script><script src="/blog/assets/js/1.2830a972.js" defer></script><script src="/blog/assets/js/58.eca614ee.js" defer></script>
+  </body>
+</html>
