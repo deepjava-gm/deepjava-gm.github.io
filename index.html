@@ -18,7 +18,7 @@
             <div class="card border-none col-lg-6 col-md-8 col-sm-10 mx-auto bg-texture">
                 <div class="card-body text-white text-center py-4">
                     <div class="mb-3">
-                        <a href="https://deepjava-gm.github.io/blog" target="_blank">
+                        <a id="avatar-link" href="https://deepjava-gm.github.io/blog" target="_blank">
                             <img src="img/head.jpg" alt="head" class="brand-logo img-fluid rounded-circle"/>
                         </a>
                     </div>
@@ -315,5 +315,37 @@
 </section>
 
 
+<script>
+    (function () {
+        var avatarLink = document.getElementById('avatar-link');
+        if (!avatarLink) {
+            return;
+        }
+
+        var clickCount = 0;
+        var clickTimer = null;
+        var clickDelay = 450;
+
+        avatarLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            clickCount += 1;
+
+            if (clickTimer) {
+                window.clearTimeout(clickTimer);
+            }
+
+            if (clickCount >= 3) {
+                clickCount = 0;
+                window.location.href = 'resume/';
+                return;
+            }
+
+            clickTimer = window.setTimeout(function () {
+                clickCount = 0;
+                window.open(avatarLink.href, avatarLink.target || '_self');
+            }, clickDelay);
+        });
+    }());
+</script>
 </body>
 </html>

@@ -1,0 +1,169 @@
+﻿/* Resume page styles. Keep resume text in index.html; keep layout/colors here. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #e8e8e8;
+      font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+      font-size: 13px;
+      color: #222;
+      line-height: 1.6;
+      padding: 40px 0;
+    }
+
+    .page {
+      background: #fff;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      padding: 0 38px 28px;
+    }
+
+    /* ===== HEADER ===== */
+    .resume-header {
+      background: #4a90c4;
+      color: #fff;
+      text-align: center;
+      padding: 26px 0 22px;
+      margin: 0 -38px;
+    }
+    .resume-header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: #fff;
+    }
+
+    /* ===== BASIC INFO TABLE ===== */
+    .basic-info-wrapper {
+      display: flex;
+      border-bottom: 1px solid #ccc;
+    }
+    .info-cols {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .info-row {
+      display: flex;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .info-row:last-child, .info-row:nth-last-child(2) {
+      border-bottom: none;
+    }
+    .info-label {
+      color: #4a90c4;
+      font-weight: 700;
+      padding: 7px 8px 7px 14px;
+      white-space: nowrap;
+      font-size: 13px;
+      letter-spacing: 2px;
+      min-width: 92px;
+      display: flex;
+      align-items: center;
+    }
+    .info-value {
+      padding: 7px 10px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      flex: 1;
+      border-left: 1px solid #e0e0e0;
+    }
+    .photo-cell {
+      width: 110px;
+      border-left: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f6fb;
+      flex-shrink: 0;
+    }
+    .photo-placeholder {
+      width: 82px;
+      height: 100px;
+      background: #d0e6f5;
+      border: 1px solid #aacce0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7aaac8;
+      font-size: 11px;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+      background: #4a90c4;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px 22px;
+      letter-spacing: 2px;
+      margin: 0 -38px;
+    }
+
+    /* ===== 求职意向 ===== */
+    .intention-row {
+      display: flex;
+      gap: 60px;
+      padding: 14px 10px;
+    }
+    .intention-label { font-weight: 700; color: #222; }
+    .intention-value { color: #444; }
+
+    /* ===== 专业技能 ===== */
+    .skill-list {
+      list-style: none;
+      padding: 14px 16px 18px 32px;
+    }
+    .skill-list li {
+      padding: 2px 0 2px 0;
+      font-size: 13px;
+      line-height: 1.75;
+      position: relative;
+      color: #333;
+    }
+    .skill-list li::before {
+      content: '➤';
+      color: #4a90c4;
+      font-size: 9px;
+      position: absolute;
+      left: -14px;
+      top: 6px;
+    }
+    .skill-list li strong { color: #222; font-weight: 700; }
+
+    /* ===== 工作经验 ===== */
+    .work-block { padding: 14px 10px 16px; }
+    .work-meta { font-size: 13px; color: #333; line-height: 1.9; }
+    .work-meta span { display: inline-block; margin-right: 24px; }
+    .block-subtitle { font-weight: 700; color: #222; margin: 6px 0 3px; font-size: 13px; }
+    .num-list { list-style: none; padding-left: 0; }
+    .num-list li {
+      font-size: 13px; color: #333; line-height: 1.75;
+      padding-left: 22px; position: relative;
+    }
+    .num-list li::before { content: attr(data-n)、; position: absolute; left: 0; color: #333; }
+
+    /* ===== 项目 ===== */
+    .proj-title-bar {
+      padding: 14px 10px 6px;
+      font-weight: 700; font-size: 13px; color: #222;
+    }
+    .project-block { padding: 4px 10px 16px; }
+    .proj-field { font-size: 13px; color: #333; line-height: 1.75; margin-bottom: 3px; }
+    .proj-field strong { color: #222; font-weight: 700; }
+    .dot-list { list-style: none; padding-left: 0; }
+    .dot-list li {
+      font-size: 13px; color: #333; line-height: 1.75;
+      padding-left: 22px; position: relative;
+    }
+    .dot-list li::before { content: attr(data-n)'. '; position: absolute; left: 0; color: #333; }
+    .proj-divider { border: none; border-top: 1px dashed #ccc; margin: 8px 0; }
+
+    /* ===== 自我评价 ===== */
+    .self-eval { padding: 14px 10px 20px; }
+    .thanks { text-align: center; color: #555; font-size: 13px; padding: 10px 0 2px; }
+
