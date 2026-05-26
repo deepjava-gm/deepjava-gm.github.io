@@ -8,6 +8,49 @@
     <link rel="stylesheet" target="_blank" href="css/bootstrap.min.css">
     <link rel="stylesheet" target="_blank" href="css/ionicons.min.css"/>
     <link rel="Shortcut Icon" target="_blank" href="./img/title.ico"/>
+    <style>
+        .ai-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.45);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .ai-modal-overlay.active {
+            display: flex;
+        }
+        .ai-modal-box {
+            text-align: center;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 16px;
+            padding: 36px 48px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .ai-modal-box a {
+            display: block;
+            margin: 10px auto;
+        }
+        .ai-modal-close {
+            position: absolute;
+            top: 10px; right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            line-height: 1;
+        }
+        .ai-modal-close:hover {
+            color: #fff;
+        }
+    </style>
 </head>
 <body class="demo-two">
 
@@ -36,13 +79,10 @@
 
                     <div class="pt-3">
 
-                        <a style="margin:10px;" target="_blank" href="https://chatgpt.com" class="btn btn-white-alt text-blue btn-lg">
-                            ChatGPT
+                        <a style="margin:10px;" href="#" class="btn btn-white-alt text-blue btn-lg" onclick="document.getElementById('aiModal').classList.add('active');return false;">
+                            AI导航
                         </a>
 
-                        <a style="margin:10px;" target="_blank" href="https://claude.ai/new" class="btn btn-white-alt text-blue btn-lg">
-                            Claude
-                        </a>
 
                         <a style="margin:10px;" target="_blank" href="https://wangchujiang.com/linux-command/" class="btn btn-white-alt text-blue btn-lg">
                             Linux命令查询
@@ -310,6 +350,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- AI Modal -->
+    <div id="aiModal" class="ai-modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="ai-modal-box">
+            <button class="ai-modal-close" onclick="document.getElementById('aiModal').classList.remove('active')">&times;</button>
+            <a style="margin:10px;" target="_blank" href="https://claude.ai/new" class="btn btn-white-alt text-blue btn-lg">Claude</a>
+            <a style="margin:10px;" target="_blank" href="https://chatgpt.com" class="btn btn-white-alt text-blue btn-lg">ChatGPT</a>
+            <a style="margin:10px;" target="_blank" href="https://gemini.google.com/app" class="btn btn-white-alt text-blue btn-lg">Gemini</a>
         </div>
     </div>
 </section>
